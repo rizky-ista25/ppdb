@@ -1,16 +1,19 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SiswaController;
 use App\Http\Controllers\TimelineController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [DashboardController::class,'index'])->name('dashboard')->middleware('auth');
-Route::get('/form', function () {
-    return view('form');
-});
+Route::get('form',[FormController::class, 'index'])->name('form')->middleware('auth');
+Route::post('/upload',[FormController::class, 'store'])->name('upload')->middleware('auth');
+Route::get('/formulir_pribadi',[SiswaController::class, 'formPribadi'])->middleware('auth');
+Route::get('/formulir_ayah',[SiswaController::class, 'formAyah'])->middleware('auth');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');

@@ -28,8 +28,8 @@ return new class extends Migration
             $table->string('cita_cita');
             $table->string('no_hp');
             $table->string('email');
-            $table->enum('kebutuhan_disabillitas',['ada', 'tidak ada']);
-            $table->enum('kebutuhan_khusus',['ada', 'tidak ada']);
+            $table->enum('kebutuhan_disabillitas',['ada', 'tidak']);
+            $table->enum('kebutuhan_khusus',['ada', 'tidak']);
             $table->text('alamat');
            $table->enum('status_tempat_tinggal', [
                 'BERSAMA ORANG TUA',
@@ -75,6 +75,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('<siswa></siswa>');
+        Schema::dropIfExists('siswa');
     }
 };

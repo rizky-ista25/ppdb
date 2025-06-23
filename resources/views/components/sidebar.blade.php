@@ -45,11 +45,28 @@
             <p>Pengumuman</p>
           </x-sidelink>
         </li>
-        <li class="nav-item">
-          <a href="/formulir-saya" class="nav-link">
+        @php
+            $formulirActive = request()->is('formulir_*');
+        @endphp
+        <li class="nav-item {{ $formulirActive ? 'menu-open' : '' }}">
+          <a href="#" class="nav-link {{ $formulirActive ? 'active' : '' }}">
             <i class="nav-icon fas fa-file-alt"></i>
-            <p>Formulir Saya</p>
+            <p>Formulir <i class="fas fa-angle-left right"></i></p>
           </a>
+          <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <x-sidelink href="/formulir_pribadi" :active="request()->is('formulir_pribadi')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Pribadi</p>
+                </x-sidelink>
+              </li>
+              <li class="nav-item">
+                <x-sidelink href="/formulir_ayah" :active="request()->is('formulir_ayah')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ayah</p>
+                </x-sidelink>
+              </li>
+          </ul>
         </li>
         @endif
 

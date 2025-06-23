@@ -4,15 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Siswa;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SiswaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function formPribadi()
     {
-        //
+        $id = 1; 
+        $siswa = Siswa::find($id);
+        return view('formulir.siswa', compact('siswa'));
+        // dd($id);
+    }
+    public function formAyah()
+    {
+        return view('formulir.ayah');
     }
 
     /**
@@ -28,44 +36,8 @@ class SiswaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'nama_lengkap' => 'required',
-            'nik' => 'required|unique:siswa,nik',
-            'nisn' => 'nullable|unique:siswa,nisn',
-            'tempat_lahir' => 'required',
-            'tanggal_lahir' => 'required|date',
-            'agama' => 'required',
-            'jenis_kelamin' => 'required|in:laki-laki,perempuan',
-            'jumlah_sodara' => 'required|integer',
-            'anakke' => 'required|integer',
-            'hobi' => 'required',
-            'cita_cita' => 'required',
-            'no_hp' => 'required',
-            'email' => 'required|email',
-            'kebutuhan_disabillitas' => 'required',
-            'kebutuhan_khusus' => 'required',
-            'alamat' => 'required',
-            'status_tempat_tinggal' => 'required',
-            'jarak_tempat_tinggal' => 'required',
-            'waktu_tempuh' => 'required',
-            'transportasi' => 'required',
-            'ktp' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
-            'kk' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
-            'dokumen_lainnya' => 'nullable|file|mimes:jpg,jpeg,png,pdf',
-        ]);
-
-        // Simpan file
-        foreach (['ktp', 'kk', 'dokumen_lainnya'] as $fileField) {
-            if ($request->hasFile($fileField)) {
-                $validated[$fileField] = $request->file($fileField)->store("uploads/{$fileField}", 'public');
-            }
-        }
-
-       
-        Siswa::create($validated);
-
-        return redirect('/')->with('success', 'Data siswa berhasil disimpan!');
-        // dd($request->all());
+        
+        
     }
 
     /**

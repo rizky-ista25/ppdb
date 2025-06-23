@@ -68,141 +68,176 @@
         </div>
 
         <div class="accordion" id="accordionExample">
-            <div class="collapse" id="collapseSiswa" data-bs-parent="#accordionExample">
-                <form method="POST" action="/upload" enctype="multipart/form-data">
+            <div class="collapse {{ $errors->any() ? 'show' : '' }}" id="collapseSiswa" data-bs-parent="#accordionExample">
+                <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
                     @csrf
-                    <div class="section-title">Data Siswa</div>
-                        <div>
-            
-                            <div>
-                                <label>Nama Lengkap</label>
-                                <input type="text" name="nama_lengkap" required>
-                            </div>
-                
-                            <div>
-                                <label>NIK</label>
-                                <input type="text" name="nik" required>
-                            </div>
-                
-                            <div>
-                                <label>NISN</label>
-                                <input type="text" name="nisn">
-                            </div>
-                
-                            <div>
-                                <label>Tempat Lahir</label>
-                                <input type="text" name="tempat_lahir" required>
-                            </div>
-                
-                            <div>
-                                <label>Tanggal Lahir</label>
-                                <input type="date" name="tanggal_lahir" required>
-                            </div>
-                
-                            <div>
-                                <label>Agama</label>
-                                <input type="text" name="agama" required>
-                            </div>
-                
-                            <div>
-                                <label>Jenis Kelamin</label>
-                                <select name="jenis_kelamin" required>
-                                    <option value="laki-laki">Laki-laki</option>
-                                    <option value="perempuan">Perempuan</option>
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Jumlah Saudara</label>
-                                <input type="number" name="jumlah_sodara" required>
-                            </div>
-                
-                            <div>
-                                <label>Anak Ke</label>
-                                <input type="number" name="anakke" required>
-                            </div>
-                
-                            <div>
-                                <label>Hobi</label>
-                                <input type="text" name="hobi" required>
-                            </div>
-                
-                            <div>
-                                <label>Cita-Cita</label>
-                                <input type="text" name="cita_cita" required>
-                            </div>
-                
-                            <div>
-                                <label>No HP</label>
-                                <input type="text" name="no_hp" required>
-                            </div>
-                
-                            <div>
-                                <label>Email</label>
-                                <input type="email" name="email" required>
-                            </div>
-                
-                            <div>
-                                <label>Kebutuhan Disabilitas</label>
-                                <select name="kebutuhan_disabillitas" required>
-                                    <option value="ada">Ada</option>
-                                    <option value="tidak ada">Tidak Ada</option>
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Kebutuhan Khusus</label>
-                                <select name="kebutuhan_khusus" required>
-                                    <option value="ada">Ada</option>
-                                    <option value="tidak ada">Tidak Ada</option>
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Alamat</label>
-                                <textarea name="alamat" required></textarea>
-                            </div>
-                
-                            <div>
-                                <label>Status Tempat Tinggal</label>
-                                <select name="status_tempat_tinggal" required>
-                                    @foreach(['BERSAMA ORANG TUA','WALI','ASRAMA','KOST','PANTI ASUHAN','LAINNYA'] as $status)
-                                        <option value="{{ $status }}">{{ $status }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Jarak Tempat Tinggal</label>
-                                <select name="jarak_tempat_tinggal" required>
-                                    @foreach(['KURANG DARI 1 KM','ANTARA 1 3 KM','ANTARA 3 5 KM','ANTARA 5 10 KM','LEBIH DARI 10 KM'] as $jarak)
-                                        <option value="{{ $jarak }}">{{ $jarak }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Waktu Tempuh</label>
-                                <select name="waktu_tempuh" required>
-                                    @foreach(['KURANG DARI 15 MENIT','ANTARA 15 30 MENIT','ANTARA 30 60 MENIT','LEBIH DARI 60 MENIT'] as $waktu)
-                                        <option value="{{ $waktu }}">{{ $waktu }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                
-                            <div>
-                                <label>Transportasi</label>
-                                <select name="transportasi" required>
-                                    @foreach(['JALAN KAKI','SEPEDA','MOTOR','MOBIL PRIBADI','ANGKOT','BUS','KERETA','LAINNYA'] as $trans)
-                                        <option value="{{ $trans }}">{{ $trans }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <button type="submit" class="submit-btn">Kirim Formulir</button>
-                            </div>
+
+                    {{-- Menampilkan semua error secara global di atas form --}}
+                    {{-- @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
                         </div>
+                    @endif --}}
+
+                    <div class="section-title">Data Siswa</div>
+
+                    <div>
+                        <label>Nama Lengkap</label>
+                        <input type="text" name="nama_lengkap" value="{{ auth()->user()->name }}" readonly>
+                    </div>
+
+                    <div>
+                        <label>Email</label>
+                        <input type="email" name="email" value="{{ auth()->user()->email }}" readonly>
+                    </div>
+
+                    <div style="font-size: 0.9rem; color: #555; margin-top: 8px; margin-bottom: 16px;">
+                        <em>Jika ingin mengubah <strong>nama</strong> atau <strong>email</strong>, silakan lakukan melalui <a href="/">halaman ini</a>.</em>
+                    </div>
+
+
+                    <div>
+                        <label>NIK</label>
+                        <input type="text" name="nik" maxlength="16" pattern="\d*" inputmode="numeric" value="{{ old('nik') }}">
+                        @error('nik') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>NISN</label>
+                        <input type="text" name="nisn" maxlength="10" pattern="\d*" inputmode="numeric" value="{{ old('nisn') }}">
+                        @error('nisn') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Tempat Lahir</label>
+                        <input type="text" name="tempat_lahir" value="{{ old('tempat_lahir') }}">
+                        @error('tempat_lahir') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Tanggal Lahir</label>
+                        <input type="date" name="tanggal_lahir" value="{{ old('tanggal_lahir') }}">
+                        @error('tanggal_lahir') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Agama</label>
+                        <input type="text" name="agama" value="{{ old('agama') }}">
+                        @error('agama') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Jenis Kelamin</label>
+                        <select name="jenis_kelamin">
+                            <option value="laki-laki" {{ old('jenis_kelamin') == 'laki-laki' ? 'selected' : '' }}>Laki-laki</option>
+                            <option value="perempuan" {{ old('jenis_kelamin') == 'perempuan' ? 'selected' : '' }}>Perempuan</option>
+                        </select>
+                        @error('jenis_kelamin') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Jumlah Saudara</label>
+                        <input type="number" name="jumlah_sodara" value="{{ old('jumlah_sodara') }}">
+                        @error('jumlah_sodara') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Anak Ke</label>
+                        <input type="number" name="anakke" value="{{ old('anakke') }}">
+                        @error('anakke') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Hobi</label>
+                        <input type="text" name="hobi" value="{{ old('hobi') }}">
+                        @error('hobi') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Cita-Cita</label>
+                        <input type="text" name="cita_cita" value="{{ old('cita_cita') }}">
+                        @error('cita_cita') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>No HP</label>
+                        <input type="text" name="no_hp" value="{{ old('no_hp') }}">
+                        @error('no_hp') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Kebutuhan Disabilitas</label>
+                        <select name="kebutuhan_disabillitas">
+                            <option value="tidak" {{ old('kebutuhan_disabillitas') == 'tidak' ? 'selected' : '' }}>Tidak Ada</option>
+                            <option value="ada" {{ old('kebutuhan_disabillitas') == 'ada' ? 'selected' : '' }}>Ada</option>
+                        </select>
+                        @error('kebutuhan_disabillitas') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Kebutuhan Khusus</label>
+                        <select name="kebutuhan_khusus">
+                            <option value="tidak" {{ old('kebutuhan_khusus') == 'tidak' ? 'selected' : '' }}>Tidak Ada</option>
+                            <option value="ada" {{ old('kebutuhan_khusus') == 'ada' ? 'selected' : '' }}>Ada</option>
+                        </select>
+                        @error('kebutuhan_khusus') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Alamat</label>
+                        <textarea name="alamat">{{ old('alamat') }}</textarea>
+                        @error('alamat') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Status Tempat Tinggal</label>
+                        <select name="status_tempat_tinggal">
+                            @foreach(['BERSAMA ORANG TUA','WALI','ASRAMA','KOST','PANTI ASUHAN','LAINNYA'] as $status)
+                                <option value="{{ $status }}" {{ old('status_tempat_tinggal') == $status ? 'selected' : '' }}>{{ $status }}</option>
+                            @endforeach
+                        </select>
+                        @error('status_tempat_tinggal') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Jarak Tempat Tinggal</label>
+                        <select name="jarak_tempat_tinggal">
+                            @foreach(['KURANG DARI 1 KM','ANTARA 1 3 KM','ANTARA 3 5 KM','ANTARA 5 10 KM','LEBIH DARI 10 KM'] as $jarak)
+                                <option value="{{ $jarak }}" {{ old('jarak_tempat_tinggal') == $jarak ? 'selected' : '' }}>{{ $jarak }}</option>
+                            @endforeach
+                        </select>
+                        @error('jarak_tempat_tinggal') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Waktu Tempuh</label>
+                        <select name="waktu_tempuh">
+                            @foreach(['KURANG DARI 15 MENIT','ANTARA 15 30 MENIT','ANTARA 30 60 MENIT','LEBIH DARI 60 MENIT'] as $waktu)
+                                <option value="{{ $waktu }}" {{ old('waktu_tempuh') == $waktu ? 'selected' : '' }}>{{ $waktu }}</option>
+                            @endforeach
+                        </select>
+                        @error('waktu_tempuh') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <label>Transportasi</label>
+                        <select name="transportasi">
+                            @foreach(['JALAN KAKI','SEPEDA','MOTOR','MOBIL PRIBADI','ANGKOT','BUS','KERETA','LAINNYA'] as $trans)
+                                <option value="{{ $trans }}" {{ old('transportasi') == $trans ? 'selected' : '' }}>{{ $trans }}</option>
+                            @endforeach
+                        </select>
+                        @error('transportasi') <div class="text-danger">{{ $message }}</div> @enderror
+                    </div>
+
+                    <div>
+                        <button type="submit" class="submit-btn">Kirim Formulir</button>
+                    </div>
                 </form>
+
             </div>
             <div class="collapse" id="collapseAyah" data-bs-parent="#accordionExample">
                 <form method="POST" action="/upload" enctype="multipart/form-data">
