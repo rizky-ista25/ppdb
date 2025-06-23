@@ -40,10 +40,10 @@
           </x-sidelink>
         </li>
         <li class="nav-item">
-          <a href="/pengumuman" class="nav-link">
+          <x-sidelink href="/timeline" :active="request()->is('timeline')">
             <i class="nav-icon fas fa-bullhorn"></i>
             <p>Pengumuman</p>
-          </a>
+          </x-sidelink>
         </li>
         <li class="nav-item">
           <a href="/formulir-saya" class="nav-link">
@@ -68,10 +68,10 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="/pengumuman" class="nav-link">
+          <x-sidelink href="/timeline" :active="request()->is('timeline')">
             <i class="nav-icon fas fa-bullhorn"></i>
             <p>Pengumuman</p>
-          </a>
+          </x-sidelink>
         </li>
         @endif
 
