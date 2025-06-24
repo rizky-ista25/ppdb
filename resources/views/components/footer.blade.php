@@ -1,7 +1,7 @@
  <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">Quantum.Idea</a>.</strong>
+    <strong>Copyright &copy; {{ date('Y') }} <a href="https:quantumidea.id">Quantum Idea</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>By</b> Rizki Maulana
     </div>
   </footer>

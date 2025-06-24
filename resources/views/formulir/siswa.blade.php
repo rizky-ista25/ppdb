@@ -62,103 +62,161 @@
         }
 
         .edit-btn:hover {
-            background-color: #0056b3;
+            background-color: #0057b34f;
+        }
+
+        .disabled {
+            pointer-events: none;
+            opacity: 0.6;
+            background-color: #6c757d !important;
+            cursor: not-allowed;
+        }
+
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 20px;
+            color: #fff;
+        }
+
+        .status-menunggu {
+            background-color: #ffc107;
+        }
+
+        .status-diterima {
+            background-color: #28a745;
+        }
+
+        .status-ditolak {
+            background-color: #dc3545;
         }
     </style>
 
-    <div class="biodata-container">
-        <div class="biodata-title">📄 Formulir Saya</div>
+    @if ($siswa)
+        {{-- Formulir Terisi --}}
+        <div class="biodata-container">
+            <div class="biodata-title">📄 Formulir Saya</div>
 
-        <div class="biodata-group">
-            <div class="biodata-item">
-                <strong>Nama Lengkap</strong>
-                <span>{{ $siswa->nama_lengkap }}</span>
+            {{-- Status --}}
+            <div class="biodata-footer mb-3">
+                @php
+                    $statusKet = strtolower($status);
+                    $badgeClass = match($statusKet) {
+                        'diterima' => 'status-diterima',
+                        'ditolak' => 'status-ditolak',
+                        default => 'status-menunggu'
+                    };
+                @endphp
+                <span class="status-badge {{ $badgeClass }}">
+                    {{ ucfirst($status) }}
+                </span>
             </div>
-            <div class="biodata-item">
-                <strong>Email</strong>
-                <span>{{ $siswa->email }}</span>
+            
+            <div class="biodata-group">
+                <div class="biodata-item">
+                    <strong>Nama Lengkap</strong>
+                    <span>{{ $siswa->nama_lengkap }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Email</strong>
+                    <span>{{ $siswa->email }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>NIK</strong>
+                    <span>{{ $siswa->nik }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>NISN</strong>
+                    <span>{{ $siswa->nisn }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>NIS Lokal</strong>
+                    <span>{{ $siswa->nis_lokal ?? '-' }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Kewarganegaraan</strong>
+                    <span>{{ $siswa->kewarganegaraan }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Tempat, Tanggal Lahir</strong>
+                    <span>{{ $siswa->tempat_lahir }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Tanggal Lahir</strong>
+                    <span>{{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Jenis Kelamin</strong>
+                    <span>{{ ucfirst($siswa->jenis_kelamin) }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Agama</strong>
+                    <span>{{ ucfirst($siswa->agama) }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Jumlah Saudara</strong>
+                    <span>{{ $siswa->jumlah_sodara }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Anak Ke</strong>
+                    <span>{{ $siswa->anakke }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Cita-cita</strong>
+                    <span>{{ $siswa->cita_cita }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>No HP</strong>
+                    <span>{{ $siswa->no_hp ?? '-' }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Hobi</strong>
+                    <span>{{ $siswa->hobi }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Pembiaya Sekolah</strong>
+                    <span>{{ $siswa->pembiaya_sekolah }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Pendidikan Pra Sekolah</strong>
+                    <span>{{ $siswa->pra_sekolah }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>KIP</strong>
+                    <span>{{ $siswa->kip ?? '-' }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>No. KK</strong>
+                    <span>{{ $siswa->kk }}</span>
+                </div>
+                <div class="biodata-item">
+                    <strong>Kepala Keluarga</strong>
+                    <span>{{ $siswa->kepala_kk }}</span>
+                </div>
             </div>
 
-            <div class="biodata-item">
-                <strong>NIK</strong>
-                <span>{{ $siswa->nik }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>NISN</strong>
-                <span>{{ $siswa->nisn }}</span>
-            </div>
 
-            <div class="biodata-item">
-                <strong>Tempat, Tanggal Lahir</strong>
-                <span>{{ $siswa->tempat_lahir }}, {{ \Carbon\Carbon::parse($siswa->tanggal_lahir)->translatedFormat('d F Y') }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Agama</strong>
-                <span>{{ ucfirst($siswa->agama) }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Jenis Kelamin</strong>
-                <span>{{ ucfirst($siswa->jenis_kelamin) }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Jumlah Saudara</strong>
-                <span>{{ $siswa->jumlah_sodara }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Anak Ke</strong>
-                <span>{{ $siswa->anakke }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Hobi</strong>
-                <span>{{ $siswa->hobi }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Cita-cita</strong>
-                <span>{{ $siswa->cita_cita }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>No HP</strong>
-                <span>{{ $siswa->no_hp }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Disabilitas</strong>
-                <span>{{ ucfirst($siswa->kebutuhan_disabillitas) }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Kebutuhan Khusus</strong>
-                <span>{{ ucfirst($siswa->kebutuhan_khusus) }}</span>
-            </div>
-
-            <div class="biodata-item" style="flex: 1 1 100%;">
-                <strong>Alamat</strong>
-                <span>{{ $siswa->alamat }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Status Tempat Tinggal</strong>
-                <span>{{ $siswa->status_tempat_tinggal }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Jarak Tempat Tinggal</strong>
-                <span>{{ $siswa->jarak_tempat_tinggal }}</span>
-            </div>
-
-            <div class="biodata-item">
-                <strong>Waktu Tempuh</strong>
-                <span>{{ $siswa->waktu_tempuh }}</span>
-            </div>
-            <div class="biodata-item">
-                <strong>Transportasi</strong>
-                <span>{{ $siswa->transportasi }}</span>
+            <div class="biodata-footer">
+                @php
+                    if ($status !== 'ditolak') {
+                        $ket = 'disabled';
+                    }else{
+                        $ket = '';
+                    }
+                @endphp
+                <a href="" class="edit-btn {{ $ket }}">✏️ Edit Biodata</a>
             </div>
         </div>
-
-        <div class="biodata-footer">
-            <a href="" class="edit-btn">✏️ Edit Biodata</a>
+    @else
+        {{-- Belum ada data formulir --}}
+        <div class="biodata-container text-center">
+            <h2 class="biodata-title">📄 Formulir Belum Diisi</h2>
+            <p class="mb-4" style="font-size: 1rem; color: #666;">Anda belum mengisi formulir biodata. Silakan lengkapi terlebih dahulu untuk melanjutkan.</p>
+            <a href="{{ route('form') }}" class="edit-btn">📝 Isi Formulir</a>
         </div>
-    </div>
+    @endif
+    
 </x-layout>

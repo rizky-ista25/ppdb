@@ -13,9 +13,10 @@ class SiswaController extends Controller
      */
     public function formPribadi()
     {
-        $id = 1; 
-        $siswa = Siswa::find($id);
-        return view('formulir.siswa', compact('siswa'));
+        $id = Auth::user()->id; 
+        $siswa = Siswa::where('user_id',$id)->first();
+        $status = $siswa->status_dok_siswa;
+        return view('formulir.siswa', compact('siswa', 'status'));
         // dd($id);
     }
     public function formAyah()

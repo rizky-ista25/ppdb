@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [DashboardController::class,'index'])->name('dashboard')->middleware('auth');
 Route::get('form',[FormController::class, 'index'])->name('form')->middleware('auth');
 Route::post('/upload',[FormController::class, 'store'])->name('upload')->middleware('auth');
+Route::post('/upload_ortu',[FormController::class, 'uploadOrtu'])->name('upload_ortu')->middleware('auth');
+Route::post('/upload_ibu',[FormController::class, 'uploadIbu'])->name('upload_ibu')->middleware('auth');
 Route::get('/formulir_pribadi',[SiswaController::class, 'formPribadi'])->middleware('auth');
 Route::get('/formulir_ayah',[SiswaController::class, 'formAyah'])->middleware('auth');
 

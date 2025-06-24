@@ -13,58 +13,35 @@ return new class extends Migration
     {
         Schema::create('siswa', function (Blueprint $table) {
             $table->id();
-
+            $table->foreignId('user_id')->constrained(
+                'users'
+            );
+            $table->foreignId('alamat_id')->nullable()->constrained(
+                'alamat'
+            );
             // Data Pribadi
             $table->string('nama_lengkap');
+            $table->string('nisn')->unique();
+            $table->string('nis_lokal')->unique()->nullable();
+            $table->string('kewarganegaraan');
             $table->string('nik')->unique();
-            $table->string('nisn')->unique()->nullable();
             $table->string('tempat_lahir');
             $table->date('tanggal_lahir');
-            $table->string('agama');
             $table->enum('jenis_kelamin', ['laki-laki', 'perempuan']);
+            $table->string('agama');
             $table->integer('jumlah_sodara');
             $table->integer('anakke');
-            $table->string('hobi');
             $table->string('cita_cita');
-            $table->string('no_hp');
+            $table->string('no_hp')->nullable();
             $table->string('email');
-            $table->enum('kebutuhan_disabillitas',['ada', 'tidak']);
-            $table->enum('kebutuhan_khusus',['ada', 'tidak']);
-            $table->text('alamat');
-           $table->enum('status_tempat_tinggal', [
-                'BERSAMA ORANG TUA',
-                'WALI',
-                'ASRAMA',
-                'KOST',
-                'PANTI ASUHAN',
-                'LAINNYA'
-            ]);
-
-            $table->enum('jarak_tempat_tinggal', [
-                'KURANG DARI 1 KM',
-                '1-3 KM',
-                '3-5 KM',
-                '5-10 KM',
-                'LEBIH DARI 10 KM'
-            ]);
-
-            $table->enum('waktu_tempuh', [
-                'KURANG DARI 15 MENIT',
-                '15-30 MENIT',
-                '30-60 MENIT',
-                'LEBIH DARI 60 MENIT'
-            ]);
-
-            $table->enum('transportasi', [
-                'JALAN KAKI',
-                'SEPEDA',
-                'MOTOR',
-                'MOBIL PRIBADI',
-                'ANGKOT',
-                'BUS',
-                'KERETA',
-                'LAINNYA'
-            ]);
+            $table->string('hobi');
+            $table->string('pembiaya_sekolah');
+            $table->string('pra_sekolah');
+            $table->string('kip')->nullable();
+            $table->string('kk')->unique();
+            $table->string('kepala_kk');
+            
+            $table->string('status_dok_siswa');
 
             $table->timestamps();
         });

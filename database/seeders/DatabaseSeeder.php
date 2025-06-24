@@ -37,16 +37,6 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        DB::table('wali_murid')->insert([
-            [
-                'wali' => 'Ayah'
-            ],
-            [
-                'wali' => 'Ibu'
-            ],
-            [
-                'wali' => 'Wali'
-            ],
-        ]);
+        
     }
 }
