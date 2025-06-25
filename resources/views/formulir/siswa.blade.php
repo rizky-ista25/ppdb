@@ -207,7 +207,7 @@
                         $ket = '';
                     }
                 @endphp
-                <a href="" class="edit-btn {{ $ket }}">✏️ Edit Biodata</a>
+                <a href="" class="edit-btn {{ $ket }}">✏️ Edit Formulir</a>
             </div>
         </div>
     @else

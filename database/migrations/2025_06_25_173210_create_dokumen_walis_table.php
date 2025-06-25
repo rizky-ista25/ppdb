@@ -53,9 +53,9 @@ return new class extends Migration
             $table->string('penghasilan_wali');
             $table->string('no_hp_wali')->nullable();
 
-            $table->foreignId('alamat_id')->constrained(
-                'alamat'
-            );
+            $table->string('status_dok_ortu');
+
+            
             $table->timestamps();
         });
     }

@@ -61,6 +61,7 @@ return new class extends Migration
             $table->string('transportasi');
             $table->string('waktu_tempuh');
 
+            $table->string('status_dok_alamat');
             $table->timestamps();
         });
     }

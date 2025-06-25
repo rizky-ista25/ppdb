@@ -13,21 +13,44 @@ class DokumenWali extends Model
     protected $table = 'dokumen_wali';
 
     protected $fillable = [
-    'nik_wali',
-    'nama_wali',
-    'tempat_lahir_wali',
-    'tanggal_lahir_wali',
-    'status_wali',
-    'pendidikan_wali',
-    'pekerjaan_wali',
-    'domisili_wali',
-    'no_hp_wali',
-    'penghasilan_wali',
-    'alamat_wali',
-    'status_tempat_tinggal_wali',
-    'wali_id',
-    'siswa_id',
-    'status_dok_wali',
-];
+        'siswa_id',
+
+        // Data Ayah
+        'nama_ayah',
+        'status_ayah',
+        'kewarganegaraan_ayah',
+        'nik_ayah',
+        'tempat_lahir_ayah',
+        'tanggal_lahir_ayah',
+        'pendidikan_ayah',
+        'pekerjaan_ayah',
+        'penghasilan_ayah',
+        'no_hp_ayah',
+
+        // Data Ibu
+        'nama_ibu',
+        'status_ibu',
+        'kewarganegaraan_ibu',
+        'nik_ibu',
+        'tempat_lahir_ibu',
+        'tanggal_lahir_ibu',
+        'pendidikan_ibu',
+        'pekerjaan_ibu',
+        'penghasilan_ibu',
+        'no_hp_ibu',
+
+        // Data Wali
+        'nama_wali',
+        'status_wali',
+        'kewarganegaraan_wali',
+        'nik_wali',
+        'tempat_lahir_wali',
+        'tanggal_lahir_wali',
+        'pendidikan_wali',
+        'pekerjaan_wali',
+        'penghasilan_wali',
+        'no_hp_wali',
+    ];
+
 
 }

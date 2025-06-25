@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DokumenWali;
 use App\Models\Siswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,13 @@ class SiswaController extends Controller
     }
     public function formAyah()
     {
-        return view('formulir.ayah');
+        $id = Auth::user()->id; 
+        $ortu = DokumenWali::where('siswa_id',$id)->first();
+        $status = $ortu->status_dok_ortu;
+        return view('formulir.ortu',compact(
+            'ortu',
+            'status'
+        ));
     }
 
     /**
