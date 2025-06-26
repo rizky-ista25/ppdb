@@ -63,6 +63,8 @@ class FormController extends Controller
                 'penghasilan_ibu' => 'string|max:100',
                 'no_hp_ibu' => 'nullable|regex:/^08[0-9]{8,11}$/',
 
+                'status_dok_ortu' => 'string',
+
                 // Wali
                 'nama_wali' => 'string|max:255',
                 'status_wali' => 'in:hidup,meninggal',
@@ -209,8 +211,8 @@ class FormController extends Controller
         DokumenWali::create($validator->validated());
 
         return redirect()->back()
-        ->with('success', 'Data orang tua berhasil disimpan')
-        ->with('info', 'Silakan lanjut formulir alamat!');
+        ->with('success_ortu', 'Data orang tua berhasil disimpan')
+        ->with('info_ortu', 'Silakan lanjut formulir alamat!');
     }
 
     public function uploadIbu(Request $request)
@@ -345,8 +347,8 @@ class FormController extends Controller
         Siswa::create($validated->validate());
 
         return redirect()->back()
-        ->with('success', 'Data siswa berhasil disimpan')
-        ->with('info', 'Silakan lanjut formulir orang tua!');
+        ->with('success_siswa', 'Data siswa berhasil disimpan')
+        ->with('info_siswa', 'Silakan lanjut formulir orang tua!');
     }
 
     /**

@@ -2,7 +2,7 @@
     <div class="col-md-12">
         <div class="timeline">
 
-            @if($timelines)
+            @if($timelines->pluck('judul')->filter()->isEmpty())
                 <!-- Timeline Kosong -->
                 <div class="text-center my-5">
                     <i class="fas fa-history fa-3x text-muted mb-3"></i>

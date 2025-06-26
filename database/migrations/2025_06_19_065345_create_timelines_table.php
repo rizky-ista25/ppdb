@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('timelines', function (Blueprint $table) {
             $table->id();
+            $table->string('judul');
+            $table->text('konten')->nullable();
+            $table->string('icon');         // e.g. fas fa-envelope
+            $table->string('color');     // e.g. bg-blue
             $table->date('tanggal');
             $table->time('waktu');
-            $table->string('ikon');         // e.g. fas fa-envelope
-            $table->string('warna_bg');     // e.g. bg-blue
-            $table->string('judul');
-            $table->text('isi')->nullable();
             $table->timestamps();
         });
     }

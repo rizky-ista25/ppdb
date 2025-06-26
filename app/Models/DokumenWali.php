@@ -50,6 +50,8 @@ class DokumenWali extends Model
         'pekerjaan_wali',
         'penghasilan_wali',
         'no_hp_wali',
+
+        'status_dok_ortu',
     ];
 
 

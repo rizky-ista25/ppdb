@@ -293,6 +293,7 @@
                 <form method="POST" action="{{ route('upload_ortu') }}">
                     @csrf
                     <input type="hidden" name="siswa_id" value="{{ auth()->user()->id }}">
+                    <input type="hidden" name="status_dok_ortu" value="menunggu">
 
                     <div class="mb-4">
                         <h5 class="mb-3">Data Ayah Kandung</h5>
@@ -860,12 +861,22 @@
     <!-- JS Bootstrap (pastikan menambahkan sebelum penutupan body) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.1/dist/sweetalert2.all.min.js"></script>
-    @if (session('success'))
+    @if (session('success_ortu'))
         
         <script>
             Swal.fire({
-                title: "Data Berhasil Disimpan!",
-                text: "Lanjutkan ke formulir alamat!",
+                title: `{{ session('success_ortu') }}`,
+                text: `{{ session('info_ortu') }}`,
+                icon: "success"
+            });
+        </script>
+    @endif
+    @if (session('success_siswa'))
+        
+        <script>
+            Swal.fire({
+                title: `{{ session('success_siswa') }}`,
+                text: `{{ session('info_siswa') }}`,
                 icon: "success"
             });
         </script>
@@ -874,7 +885,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const checkbox = document.getElementById('defaultCheck1');
             const inputAyah = document.getElementById('nama_ayah');
-            const kepalaKK = @json($statusSiswa->kepala_kk);
+            const kepalaKK = @json($statusSiswa ? $statusSiswa->kepala_kk : null);
 
             function applyCheckboxLogic() {
                 if (checkbox.checked) {
