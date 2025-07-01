@@ -13,9 +13,10 @@ Route::get('/', [DashboardController::class,'index'])->name('dashboard')->middle
 Route::get('form',[FormController::class, 'index'])->name('form')->middleware('auth');
 Route::post('/upload',[FormController::class, 'store'])->name('upload')->middleware('auth');
 Route::post('/upload_ortu',[FormController::class, 'uploadOrtu'])->name('upload_ortu')->middleware('auth');
-Route::post('/upload_ibu',[FormController::class, 'uploadIbu'])->name('upload_ibu')->middleware('auth');
+Route::post('/upload_alamat',[FormController::class, 'uploadAlamat'])->name('upload_alamat')->middleware('auth');
 Route::get('/formulir_pribadi',[SiswaController::class, 'formPribadi'])->middleware('auth');
-Route::get('/formulir_ayah',[SiswaController::class, 'formAyah'])->middleware('auth');
+Route::get('/formulir_ortu',[SiswaController::class, 'formOrtu'])->middleware('auth');
+Route::get('/formulir_alamat',[SiswaController::class, 'formAlamat'])->middleware('auth');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');

@@ -57,13 +57,19 @@
               <li class="nav-item">
                 <x-sidelink href="/formulir_pribadi" :active="request()->is('formulir_pribadi')">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Pribadi</p>
+                  <p>Siswa</p>
                 </x-sidelink>
               </li>
               <li class="nav-item">
-                <x-sidelink href="/formulir_ayah" :active="request()->is('formulir_ayah')">
+                <x-sidelink href="/formulir_ortu" :active="request()->is('formulir_ortu')">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Ayah</p>
+                  <p>Orang Tua</p>
+                </x-sidelink>
+              </li>
+              <li class="nav-item">
+                <x-sidelink href="/formulir_alamat" :active="request()->is('formulir_alamat')">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Alamat</p>
                 </x-sidelink>
               </li>
           </ul>

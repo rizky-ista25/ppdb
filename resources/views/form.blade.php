@@ -294,6 +294,16 @@
                     @csrf
                     <input type="hidden" name="siswa_id" value="{{ auth()->user()->id }}">
                     <input type="hidden" name="status_dok_ortu" value="menunggu">
+                    
+                    @if ($errors->ortu->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->ortu->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
 
                     <div class="mb-4">
                         <h5 class="mb-3">Data Ayah Kandung</h5>
@@ -322,7 +332,7 @@
                             <div class="col-md-6 mb-3">
                                 <label>Kewarganegaraan</label>
                                 <select class="form-select" id="kewarganegaraan_ayah" name="kewarganegaraan_ayah">
-                                    <option value="">-- Pilih --</option>
+                                    {{-- <option value="">-- Pilih --</option> --}}
                                     <option value="WNI" @selected(old('kewarganegaraan_ayah') == 'WNI')>WNI</option>
                                     <option value="WNA" @selected(old('kewarganegaraan_ayah') == 'WNA')>WNA</option>
                                 </select>
@@ -340,7 +350,7 @@
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label>Tanggal Lahir</label>
-                                <input type="date" class="form-control" id="tanggal_lahir_ayah" name="tanggal_lahir_ayah" value="{{ old('tanggal_lahir_ayah') }}">
+                                <input type="date" class="form-control" id="tanggal_lahir_ayah" name="tanggal_lahir_ayah" value="{{ old('tanggal_lahir_ayah') }}" required>
                                 @error('tanggal_lahir_ayah','ortu') <small class="text-danger">{{ $message }}</small> @enderror
                             </div>
                             <div class="col-md-6 mb-3">
@@ -652,7 +662,7 @@
             {{-- Form Alamat --}}
             <div class="collapse {{ $errors->alamat->any() ? 'show' : '' }}" id="collapseAlamat" data-bs-parent="#accordionExample">
             {{-- <div class="collapse show" id="collapseAlamat" data-bs-parent="#accordionExample"> --}}
-                <form method="POST" action="{{ route('upload') }}" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('upload_alamat') }}" enctype="multipart/form-data">
                     @csrf
 
                     @if ($errors->alamat->any())
@@ -671,7 +681,7 @@
                     <div class="row mb-3">
                         <div class="col-md-12">
                             <label>Status Kepemilikan Rumah</label>
-                            <select class="form-control" name="pemilikan_rumah_ayah">
+                            <select class="form-control" name="pemilikan_rumah_ayah" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
                                 <option value=""></option>
                                 <option value="Milik Sendiri Rumah Orang Tua" {{ old('pemilikan_rumah_ayah') == 'Milik Sendiri Rumah Orang Tua' ? 'selected' : '' }}>Milik Sendiri Rumah Orang Tua</option>
                                 <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_ayah') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
@@ -680,7 +690,7 @@
                                 <option value="Lainnya" {{ old('pemilikan_rumah_ayah') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                             
-                            @error('pemilikan_rumah_ayah')
+                            @error('pemilikan_rumah_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -690,54 +700,52 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <select class="form-control" name="provinsi_ayah" id="provinsi_ayah">
-                                <option value="">Pilih Provinsi</option>
-                                <option value="Aceh" {{ old('provinsi_ayah') == 'Aceh' ? 'selected' : '' }}>Aceh</option>
-                                <option value="Bali" {{ old('provinsi_ayah') == 'Bali' ? 'selected' : '' }}>Bali</option>
-                                <option value="Banten" {{ old('provinsi_ayah') == 'Banten' ? 'selected' : '' }}>Banten</option>
-                                <option value="Bengkulu" {{ old('provinsi_ayah') == 'Bengkulu' ? 'selected' : '' }}>Bengkulu</option>
-                                <option value="DI Yogyakarta" {{ old('provinsi_ayah') == 'DI Yogyakarta' ? 'selected' : '' }}>DI Yogyakarta</option>
-                                <option value="Dki Jakarta" {{ old('provinsi_ayah') == 'Dki Jakarta' ? 'selected' : '' }}>Dki Jakarta</option>
-                                <option value="Gorontalo" {{ old('provinsi_ayah') == 'Gorontalo' ? 'selected' : '' }}>Gorontalo</option>
-                                <option value="Jambi" {{ old('provinsi_ayah') == 'Jambi' ? 'selected' : '' }}>Jambi</option>
-                                <option value="Jawa Barat" {{ old('provinsi_ayah') == 'Jawa Barat' ? 'selected' : '' }}>Jawa Barat</option>
-                                <option value="Jawa Tengah" {{ old('provinsi_ayah') == 'Jawa Tengah' ? 'selected' : '' }}>Jawa Tengah</option>
-                                <option value="Jawa Timur" {{ old('provinsi_ayah') == 'Jawa Timur' ? 'selected' : '' }}>Jawa Timur</option>
-                                <option value="Kalimantan Barat" {{ old('provinsi_ayah') == 'Kalimantan Barat' ? 'selected' : '' }}>Kalimantan Barat</option>
-                                <option value="Kalimantan Selatan" {{ old('provinsi_ayah') == 'Kalimantan Selatan' ? 'selected' : '' }}>Kalimantan Selatan</option>
-                                <option value="Kalimantan Tengah" {{ old('provinsi_ayah') == 'Kalimantan Tengah' ? 'selected' : '' }}>Kalimantan Tengah</option>
-                                <option value="Kalimantan Timur" {{ old('provinsi_ayah') == 'Kalimantan Timur' ? 'selected' : '' }}>Kalimantan Timur</option>
-                                <option value="Kepulauan Bangka Belitung" {{ old('provinsi_ayah') == 'Kepulauan Bangka Belitung' ? 'selected' : '' }}>Kepulauan Bangka Belitung</option>
-                                <option value="Kepulauan Riau" {{ old('provinsi_ayah') == 'Kepulauan Riau' ? 'selected' : '' }}>Kepulauan Riau</option>
-                                <option value="Lampung" {{ old('provinsi_ayah') == 'Lampung' ? 'selected' : '' }}>Lampung</option>
-                                <option value="Maluku" {{ old('provinsi_ayah') == 'Maluku' ? 'selected' : '' }}>Maluku</option>
-                                <option value="Maluku Utara" {{ old('provinsi_ayah') == 'Maluku Utara' ? 'selected' : '' }}>Maluku Utara</option>
-                                <option value="Nusa Tenggara Barat" {{ old('provinsi_ayah') == 'Nusa Tenggara Barat' ? 'selected' : '' }}>Nusa Tenggara Barat</option>
-                                <option value="Nusa Tenggara Timur" {{ old('provinsi_ayah') == 'Nusa Tenggara Timur' ? 'selected' : '' }}>Nusa Tenggara Timur</option>
-                                <option value="Papua" {{ old('provinsi_ayah') == 'Papua' ? 'selected' : '' }}>Papua</option>
-                                <option value="Papua Barat" {{ old('provinsi_ayah') == 'Papua Barat' ? 'selected' : '' }}>Papua Barat</option>
-                                <option value="Riau" {{ old('provinsi_ayah') == 'Riau' ? 'selected' : '' }}>Riau</option>
-                                <option value="Sulawesi Barat" {{ old('provinsi_ayah') == 'Sulawesi Barat' ? 'selected' : '' }}>Sulawesi Barat</option>
-                                <option value="Sulawesi Selatan" {{ old('provinsi_ayah') == 'Sulawesi Selatan' ? 'selected' : '' }}>Sulawesi Selatan</option>
-                                <option value="Sulawesi Tengah" {{ old('provinsi_ayah') == 'Sulawesi Tengah' ? 'selected' : '' }}>Sulawesi Tengah</option>
-                                <option value="Sulawesi Tenggara" {{ old('provinsi_ayah') == 'Sulawesi Tenggara' ? 'selected' : '' }}>Sulawesi Tenggara</option>
-                                <option value="Sulawesi Utara" {{ old('provinsi_ayah') == 'Sulawesi Utara' ? 'selected' : '' }}>Sulawesi Utara</option>
-                                <option value="Sumatera Barat" {{ old('provinsi_ayah') == 'Sumatera Barat' ? 'selected' : '' }}>Sumatera Barat</option>
-                                <option value="Sumatera Selatan" {{ old('provinsi_ayah') == 'Sumatera Selatan' ? 'selected' : '' }}>Sumatera Selatan</option>
-                                <option value="Sumatera Utara" {{ old('provinsi_ayah') == 'Sumatera Utara' ? 'selected' : '' }}>Sumatera Utara</option>
-                            </select>
-
-                            @error('provinsi_ayah')
+                            <input type="text" class="form-control" name="provinsi_ayah" id="provinsi_ayah" value="{{ old('provinsi_ayah') }}" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                            @error('provinsi_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
 
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <select class="form-control" name="kab_kota_ayah" id="kab_kota_ayah">
-                                <option value="">Pilih Kabupaten/Kota</option>
-                            </select>
-                            @error('kab_kota_ayah')
+                            <input type="text" class="form-control" name="kab_kota_ayah" id="kab_kota_ayah" value="{{ old('kab_kota_ayah') }}" disabled>
+                            @error('kab_kota_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Kecamatan</label>
+                            <input type="text" class="form-control" name="kecamatan_ayah" id="kecamatan_ayah" value="{{ old('kecamatan_ayah') }}" disabled>
+                            @error('kecamatan_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kelurahan/Desa</label>
+                            <input type="text" class="form-control" name="kel_des_ayah" id="kel_des_ayah" value="{{ old('kel_des_ayah') }}" disabled>
+                            @error('kel_des_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>RT</label>
+                            <input type="text" class="form-control" name="rt_ayah" value="{{ old('rt_ayah') }}" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                            @error('rt_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                        <div class="col-md-6">
+                            <label>RW</label>
+                            <input type="text" class="form-control" name="rw_ayah" value="{{ old('rw_ayah') }}" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                            @error('rw_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -745,106 +753,354 @@
                     
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_ayah" value="{{ old('kecamatan_ayah') }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_ayah" value="{{ old('kel_des_ayah') }}">
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <label>RT</label>
-                            <input type="text" class="form-control" name="rt_ayah" value="{{ old('rt_ayah') }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label>RW</label>
-                            <input type="text" class="form-control" name="rw_ayah" value="{{ old('rw_ayah') }}">
-                        </div>
-                    </div>
-                    
-                    <div class="row mb-3">
-                        <div class="col-md-6">
                             <label>Alamat</label>
-                            <textarea class="form-control" name="alamat_ayah">{{ old('alamat_ayah') }}</textarea>
+                            <textarea class="form-control" name="alamat_ayah" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>{{ old('alamat_ayah') }}</textarea>
+                            @error('alamat_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                         <div class="col-md-6">
                             <label>Kode Pos</label>
-                            <input type="text" class="form-control" name="kode_pos_ayah" value="{{ old('kode_pos_ayah') }}">
+                            <input type="text" class="form-control" name="kode_pos_ayah" value="{{ old('kode_pos_ayah') }}" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                            @error('kode_pos_ayah','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
+
+                    <!-- Alamat Ibu -->
+                    <div class="section-title">Ibu Kandung</div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label>Status Kepemilikan Rumah</label>
+                            <select class="form-control" name="pemilikan_rumah_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                                <option value=""></option>
+                                {{-- <option value="Sama Dengan Ayah" {{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? 'selected' : '' }}>Milik Sendiri</option> --}}
+                                <option value="Milik Sendiri" {{ old('pemilikan_rumah_ibu') == 'Milik Sendiri' ? 'selected' : '' }}>Milik Sendiri</option>
+                                <option value="Rumah Orang Tua" {{ old('pemilikan_rumah_ibu') == 'Rumah Orang Tua' ? 'selected' : '' }}>Rumah Orang Tua</option>
+                                <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_ibu') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
+                                <option value="Rumah Dinas" {{ old('pemilikan_rumah_ibu') == 'Rumah Dinas' ? 'selected' : '' }}>Rumah Dinas</option>
+                                <option value="Sewa/kontrak" {{ old('pemilikan_rumah_ibu') == 'Sewa/kontrak' ? 'selected' : '' }}>Sewa/kontrak</option>
+                                <option value="Lainnya" {{ old('pemilikan_rumah_ibu') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+
+                            @error('pemilikan_rumah_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Provinsi</label>
+                            <input type="text" class="form-control" name="provinsi_ibu" id="provinsi_ibu" value="{{ old('provinsi_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            @error('provinsi_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kabupaten/Kota</label>
+                            <input type="text" class="form-control" name="kab_kota_ibu" id="kab_kota_ibu" value="{{ old('kab_kota_ibu') }}" disabled>
+                            @error('kab_kota_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Kecamatan</label>
+                            <input type="text" class="form-control" name="kecamatan_ibu" id="kecamatan_ibu" value="{{ old('kecamatan_ibu') }}" disabled>
+                            @error('kecamatan_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kelurahan/Desa</label>
+                            <input type="text" class="form-control" name="kel_des_ibu" id="kel_des_ibu" value="{{ old('kel_des_ibu') }}" disabled>
+                            @error('kel_des_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>RT</label>
+                            <input type="text" class="form-control" name="rt_ibu" value="{{ old('rt_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            @error('rt_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>RW</label>
+                            <input type="text" class="form-control" name="rw_ibu" value="{{ old('rw_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            @error('rw_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Alamat</label>
+                            <textarea class="form-control" name="alamat_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>{{ old('alamat_ibu') }}</textarea>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kode Pos</label>
+                            <input type="text" class="form-control" name="kode_pos_ibu" value="{{ old('kode_pos_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            @error('kode_pos_ibu','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                    <!-- Alamat Wali -->
+                    <div class="section-title">Wali</div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <label>Status Kepemilikan Rumah</label>
+                            <select class="form-control" name="pemilikan_rumah_wali">
+                                <option value=""></option>
+                                <option value="Milik Sendiri Rumah Orang Tua" {{ old('pemilikan_rumah_wali') == 'Milik Sendiri Rumah Orang Tua' ? 'selected' : '' }}>Milik Sendiri Rumah Orang Tua</option>
+                                <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_wali') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
+                                <option value="Rumah Dinas" {{ old('pemilikan_rumah_wali') == 'Rumah Dinas' ? 'selected' : '' }}>Rumah Dinas</option>
+                                <option value="Sewa/kontrak" {{ old('pemilikan_rumah_wali') == 'Sewa/kontrak' ? 'selected' : '' }}>Sewa/kontrak</option>
+                                <option value="Lainnya" {{ old('pemilikan_rumah_wali') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+
+                            @error('pemilikan_rumah_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Provinsi</label>
+                            <input type="text" class="form-control" name="provinsi_wali" id="provinsi_wali" value="{{ old('provinsi_wali') }}">
+                            @error('provinsi_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kabupaten/Kota</label>
+                            <input type="text" class="form-control" name="kab_kota_wali" id="kab_kota_wali" value="{{ old('kab_kota_wali') }}" disabled>
+                            @error('kab_kota_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Kecamatan</label>
+                            <input type="text" class="form-control" name="kecamatan_wali" id="kecamatan_wali" value="{{ old('kecamatan_wali') }}" disabled>
+                            @error('kecamatan_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kelurahan/Desa</label>
+                            <input type="text" class="form-control" name="kel_des_wali" id="kel_des_wali" value="{{ old('kel_des_wali') }}" disabled>
+                            @error('kel_des_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>RT</label>
+                            <input type="text" class="form-control" name="rt_wali" value="{{ old('rt_wali') }}">
+                            @error('rt_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>RW</label>
+                            <input type="text" class="form-control" name="rw_wali" value="{{ old('rw_wali') }}">
+                            @error('rw_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label>Alamat</label>
+                            <textarea class="form-control" name="alamat_wali">{{ old('alamat_wali') }}</textarea>
+                            @error('alamat_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label>Kode Pos</label>
+                            <input type="text" class="form-control" name="kode_pos_wali" value="{{ old('kode_pos_wali') }}">
+                            @error('kode_pos_wali','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
 
                     <!-- Alamat Siswa -->
                     <div class="section-title mt-4">Alamat Siswa</div>
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <label>Status Tempat Tinggal</label>
-                            <input type="text" class="form-control" name="status_tempat_tinggal" value="{{ old('status_tempat_tinggal') }}">
+                            <select class="form-control" name="status_tempat_tinggal">
+                                <option value="">Pilih Status Tempat Tinggal</option>
+                                <option value="Tinggal dengan Ayah Kandung" {{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? 'selected' : '' }}>Tinggal dengan Ayah Kandung</option>
+                                <option value="Tinggal dengan Ibu Kandung" {{ old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? 'selected' : '' }}>Tinggal dengan Ibu Kandung</option>
+                                <option value="Tinggal dengan Wali" {{ old('status_tempat_tinggal') == 'Tinggal dengan Wali' ? 'selected' : '' }}>Tinggal dengan Wali</option>
+                                <option value="Ikut Saudara/Kerabat" {{ old('status_tempat_tinggal') == 'Ikut Saudara/Kerabat' ? 'selected' : '' }}>Ikut Saudara/Kerabat</option>
+                                <option value="Asrama Madrasah" {{ old('status_tempat_tinggal') == 'Asrama Madrasah' ? 'selected' : '' }}>Asrama Madrasah</option>
+                                <option value="Kontrak/Kost" {{ old('status_tempat_tinggal') == 'Kontrak/Kost' ? 'selected' : '' }}>Kontrak/Kost</option>
+                                <option value="Tinggal di Asrama Pesantren" {{ old('status_tempat_tinggal') == 'Tinggal di Asrama Pesantren' ? 'selected' : '' }}>Tinggal di Asrama Pesantren</option>
+                                <option value="Panti Asuhan" {{ old('status_tempat_tinggal') == 'Panti Asuhan' ? 'selected' : '' }}>Panti Asuhan</option>
+                                <option value="Rumah Singgah" {{ old('status_tempat_tinggal') == 'Rumah Singgah' ? 'selected' : '' }}>Rumah Singgah</option>
+                                <option value="Lainnya" {{ old('status_tempat_tinggal') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                            </select>
+
+                            @error('status_tempat_tinggal','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+
+                    </div>
+                    
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <input type="text" class="form-control" name="provinsi_siswa" value="{{ old('provinsi_siswa') }}">
+                            <input type="text" class="form-control" name="provinsi_siswa" id="provinsi_siswa" value="{{ old('provinsi_siswa') }}">
+                            @error('provinsi_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
-                    </div>
 
-                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <input type="text" class="form-control" name="kab_kota_siswa" value="{{ old('kab_kota_siswa') }}">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_siswa" value="{{ old('kecamatan_siswa') }}">
+                            <input type="text" class="form-control" name="kab_kota_siswa" id="kab_kota_siswa" value="{{ old('kab_kota_siswa') }}" disabled>
+                            @error('kab_kota_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_siswa" value="{{ old('kel_des_siswa') }}">
+                            <label>Kecamatan</label>
+                            <input type="text" class="form-control" name="kecamatan_siswa" id="kecamatan_siswa" value="{{ old('kecamatan_siswa') }}" disabled>
+                            @error('kecamatan_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+
+                        <div class="col-md-6">
+                            <label>Kelurahan/Desa</label>
+                            <input type="text" class="form-control" name="kel_des_siswa" id="kel_des_siswa" value="{{ old('kel_des_siswa') }}" disabled>
+                            @error('kel_des_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+
+                    
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>RT</label>
                             <input type="text" class="form-control" name="rt_siswa" value="{{ old('rt_siswa') }}">
+                            @error('rt_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>RW</label>
                             <input type="text" class="form-control" name="rw_siswa" value="{{ old('rw_siswa') }}">
+                            @error('rw_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+                    </div>
+                    
+                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Alamat</label>
                             <textarea class="form-control" name="alamat_siswa">{{ old('alamat_siswa') }}</textarea>
                         </div>
-                    </div>
-
-                    <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kode Pos</label>
                             <input type="text" class="form-control" name="kode_pos_siswa" value="{{ old('kode_pos_siswa') }}">
+                            @error('alamat_siswa','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Jarak</label>
-                            <input type="text" class="form-control" name="jarak" value="{{ old('jarak') }}">
+                            <select class="form-control" name="jarak">
+                                <option value="">Pilih Jarak Tempuh</option>
+                                <option value="Kurang dari 5 km" {{ old('jarak') == 'Kurang dari 5 km' ? 'selected' : '' }}>Kurang dari 5 km</option>
+                                <option value="Antara 5-10 Km" {{ old('jarak') == 'Antara 5-10 Km' ? 'selected' : '' }}>Antara 5-10 Km</option>
+                                <option value="Antara 11 - 20 Km" {{ old('jarak') == 'Antara 11 - 20 Km' ? 'selected' : '' }}>Antara 11 - 20 Km</option>
+                                <option value="Antara 21 - 30 Km" {{ old('jarak') == 'Antara 21-30 Km' ? 'selected' : '' }}>Antara 21-30 Km</option>
+                                <option value="Lebih dari 30 Km" {{ old('jarak') == 'Lebih dari 30 Km' ? 'selected' : '' }}>Lebih dari 30 Km</option>
+                            </select>
+                            @error('jarak', 'alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+
                         <div class="col-md-6">
                             <label>Transportasi</label>
-                            <input type="text" class="form-control" name="transportasi" value="{{ old('transportasi') }}">
+                            <select class="form-control" name="transportasi">
+                                <option value="">Pilih Transportasi</option>
+                                <option value="Jalan Kaki" {{ old('transportasi') == 'Jalan Kaki' ? 'selected' : '' }}>Jalan Kaki</option>
+                                <option value="Sepeda" {{ old('transportasi') == 'Sepeda' ? 'selected' : '' }}>Sepeda</option>
+                                <option value="Sepeda Motor" {{ old('transportasi') == 'Sepeda Motor' ? 'selected' : '' }}>Sepeda Motor</option>
+                                <option value="Mobil Pribadi" {{ old('transportasi') == 'Mobil Pribadi' ? 'selected' : '' }}>Mobil Pribadi</option>
+                                <option value="Antar Jemput Sekolah" {{ old('transportasi') == 'Antar Jemput Sekolah' ? 'selected' : '' }}>Antar Jemput Sekolah</option>
+                                <option value="Angkutan Umum" {{ old('transportasi') == 'Angkutan Umum' ? 'selected' : '' }}>Angkutan Umum</option>
+                                <option value="Perahu/Sampan" {{ old('transportasi') == 'Perahu/Sampan' ? 'selected' : '' }}>Perahu/Sampan</option>
+                                <option value="Lainnya" {{ old('transportasi') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                <option value="Kendaraan Pribadi" {{ old('transportasi') == 'Kendaraan Pribadi' ? 'selected' : '' }}>Kendaraan Pribadi</option>
+                                <option value="Kereta Api" {{ old('transportasi') == 'Kereta Api' ? 'selected' : '' }}>Kereta Api</option>
+                                <option value="Ojek" {{ old('transportasi') == 'Ojek' ? 'selected' : '' }}>Ojek</option>
+                                <option value="Andong/Bendi/Sado/Dokar/Delman/Becak" {{ old('transportasi') == 'Andong/Bendi/Sado/Dokar/Delman/Becak' ? 'selected' : '' }}>
+                                    Andong/Bendi/Sado/Dokar/Delman/Becak
+                                </option>
+                            </select>
+                            @error('transportasi', 'alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
+
                     </div>
 
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Waktu Tempuh</label>
                             <input type="text" class="form-control" name="waktu_tempuh" value="{{ old('waktu_tempuh') }}">
+                            @error('waktu_tempuh','alamat')
+                                <small class="text-danger">{{ $message }}</small>
+                            @enderror
                         </div>
                     </div>
 
@@ -856,7 +1112,7 @@
 
             
 
-        </div>
+            </div>
     </div>
     <!-- JS Bootstrap (pastikan menambahkan sebelum penutupan body) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
@@ -877,6 +1133,16 @@
             Swal.fire({
                 title: `{{ session('success_siswa') }}`,
                 text: `{{ session('info_siswa') }}`,
+                icon: "success"
+            });
+        </script>
+    @endif
+    @if (session('success_alamat'))
+        
+        <script>
+            Swal.fire({
+                title: `{{ session('success_alamat') }}`,
+                text: `{{ session('info_alamat') }}`,
                 icon: "success"
             });
         </script>
@@ -988,9 +1254,14 @@
                 var inputs = document.querySelectorAll(
                     '#kewarganegaraan_ayah, #nik_ayah, #tempat_lahir_ayah, #tanggal_lahir_ayah, #pendidikan_ayah, #pekerjaan_ayah, #penghasilan_ayah, #no_hp_ayah'
                 );
+
+                
+                
                 
                 inputs.forEach(function(input) {
                     input.disabled = true;
+                    
+                    
                 });
 
                 Array.from(pilihWali.options).forEach(option => {
@@ -1008,6 +1279,7 @@
                 );
                 inputs.forEach(function(input) {
                     input.disabled = false;
+                    
                 });
                 Array.from(pilihWali.options).forEach(option => {
                     if (option.value === 'ayah') {
@@ -1089,5 +1361,5 @@
             }
         });
     </script>
-    <script src="{{ 'js/alamat.js' }}"></script>
+    <script src="{{ 'js/field.js' }}"></script>
 </x-layout>

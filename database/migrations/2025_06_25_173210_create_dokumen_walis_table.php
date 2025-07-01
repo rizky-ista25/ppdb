@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('status_ayah');
             $table->string('kewarganegaraan_ayah');
             $table->string('nik_ayah')->unique();
-            $table->string('tempat_lahir_ayah')->unique();
-            $table->date('tanggal_lahir_ayah');
+            $table->string('tempat_lahir_ayah');
+            $table->date('tanggal_lahir_ayah')->nullable();
             $table->string('pendidikan_ayah');            
             $table->string('pekerjaan_ayah');
             $table->string('penghasilan_ayah');
@@ -34,8 +34,8 @@ return new class extends Migration
             $table->string('status_ibu');
             $table->string('kewarganegaraan_ibu');
             $table->string('nik_ibu')->unique();
-            $table->string('tempat_lahir_ibu')->unique();
-            $table->date('tanggal_lahir_ibu');
+            $table->string('tempat_lahir_ibu');
+            $table->date('tanggal_lahir_ibu')->nullable();
             $table->string('pendidikan_ibu');            
             $table->string('pekerjaan_ibu');
             $table->string('penghasilan_ibu');
@@ -46,8 +46,8 @@ return new class extends Migration
             $table->string('status_wali');
             $table->string('kewarganegaraan_wali');
             $table->string('nik_wali')->unique();
-            $table->string('tempat_lahir_wali')->unique();
-            $table->date('tanggal_lahir_wali');
+            $table->string('tempat_lahir_wali');
+            $table->date('tanggal_lahir_wali')->nullable();
             $table->string('pendidikan_wali');            
             $table->string('pekerjaan_wali');
             $table->string('penghasilan_wali');

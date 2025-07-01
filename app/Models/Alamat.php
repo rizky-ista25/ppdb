@@ -10,6 +10,7 @@ class Alamat extends Model
     /** @use HasFactory<\Database\Factories\AlamatFactory> */
     use HasFactory;
 
+    protected $table = 'alamat';
     protected $fillable = [
         // Ayah
         'pemilikan_rumah_ayah',
@@ -57,5 +58,8 @@ class Alamat extends Model
         'jarak',
         'transportasi',
         'waktu_tempuh',
+
+        'status_dok_alamat',
+        'alamatSiswa_id'
     ];
 }

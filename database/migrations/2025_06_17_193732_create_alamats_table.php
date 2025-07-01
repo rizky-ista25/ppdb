@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('alamat', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('alamatSiswa_id')->constrained(
+                'users'
+            );
 
             // Ayah
             $table->string('pemilikan_rumah_ayah');

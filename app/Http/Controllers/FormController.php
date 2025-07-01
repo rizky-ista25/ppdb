@@ -19,7 +19,7 @@ class FormController extends Controller
         $id = Auth::user()->id;
         $statusSiswa = Siswa::where('user_id',$id)->first();
         $statusOrtu = DokumenWali::where('siswa_id',$id)->first();
-        $statusAlamat = Siswa::where('alamat_id',$id)->first();
+        $statusAlamat = Alamat::where('alamatSiswa_id',$id)->first();
         
         return view('form',compact(
             'statusSiswa',
@@ -42,13 +42,13 @@ class FormController extends Controller
                 // Ayah
                 'nama_ayah' => 'string|max:255',
                 'status_ayah' => 'in:hidup,meninggal',
-                'kewarganegaraan_ayah' => 'string|max:100',
+                'kewarganegaraan_ayah' => 'max:100',
                 'nik_ayah' => 'digits:16|unique:dokumen_wali,nik_ayah',
                 'tempat_lahir_ayah' => 'string|max:100|unique:dokumen_wali,tempat_lahir_ayah',
                 'tanggal_lahir_ayah' => 'date|before:today',
-                'pendidikan_ayah' => 'string|max:100',
-                'pekerjaan_ayah' => 'string|max:100',
-                'penghasilan_ayah' => 'string|max:100',
+                'pendidikan_ayah' => 'max:100',
+                'pekerjaan_ayah' => 'max:100',
+                'penghasilan_ayah' => 'max:100',
                 'no_hp_ayah' => 'nullable|regex:/^08[0-9]{8,11}$/',
 
                 // Ibu
@@ -207,60 +207,187 @@ class FormController extends Controller
                 ->withInput();
         }
 
-        // Simpan data ke tabel
-        DokumenWali::create($validator->validated());
+        $data = $validator->validated();
+
+
+        $data['nik_ayah'] = $data['nik_ayah'] ?? '';
+        $data['tempat_lahir_ayah'] = $data['tempat_lahir_ayah'] ?? '';
+        $data['kewarganegaraan_ayah'] = $data['kewarganegaraan_ayah'] ?? '';
+        $data['pendidikan_ayah'] = $data['pendidikan_ayah'] ?? '';
+        $data['pekerjaan_ayah'] = $data['pekerjaan_ayah'] ?? '';
+        $data['penghasilan_ayah'] = $data['penghasilan_ayah'] ?? '';
+        $data['tanggal_lahir_ayah'] = $data['tanggal_lahir_ayah'] ?? null;
+
+
+        $data['nik_ibu'] = $data['nik_ibu'] ?? '';
+        $data['tempat_lahir_ibu'] = $data['tempat_lahir_ibu'] ?? '';
+        $data['kewarganegaraan_ibu'] = $data['kewarganegaraan_ibu'] ?? '';
+        $data['pendidikan_ibu'] = $data['pendidikan_ibu'] ?? '';
+        $data['pekerjaan_ibu'] = $data['pekerjaan_ibu'] ?? '';
+        $data['penghasilan_ibu'] = $data['penghasilan_ibu'] ?? '';
+        $data['tanggal_lahir_ibu'] = $data['tanggal_lahir_ibu'] ?? null;
+
+
+        $data['nik_wali'] = $data['nik_wali'] ?? '';
+        $data['tempat_lahir_wali'] = $data['tempat_lahir_wali'] ?? '';
+        $data['kewarganegaraan_wali'] = $data['kewarganegaraan_wali'] ?? '';
+        $data['pendidikan_wali'] = $data['pendidikan_wali'] ?? '';
+        $data['pekerjaan_wali'] = $data['pekerjaan_wali'] ?? '';
+        $data['penghasilan_wali'] = $data['penghasilan_wali'] ?? '';
+        $data['tanggal_lahir_wali'] = $data['tanggal_lahir_wali'] ?? null;
+
+        DokumenWali::create($data);
+
 
         return redirect()->back()
         ->with('success_ortu', 'Data orang tua berhasil disimpan')
         ->with('info_ortu', 'Silakan lanjut formulir alamat!');
     }
 
-    public function uploadIbu(Request $request)
+    public function uploadAlamat(Request $request)
     {
-        $validator = Validator::make($request->all(),
-        [
-            'nik_wali' => 'required|digits:16',
-            'nama_wali' => 'required|string|max:255',
-            'tempat_lahir_wali' => 'required|string|max:255',
-            'tanggal_lahir_wali' => 'required|date|before:today',
-            'status_wali' => 'required|in:hidup,meninggal',
-            'pendidikan_wali' => 'required',
-            'pekerjaan_wali' => 'required',
-            'domisili_wali' => 'required',
-            'no_hp_wali' => 'required|regex:/^08[0-9]{8,11}$/',
-            'penghasilan_wali' => 'required',
-            'alamat_wali' => 'required|string',
-            'status_tempat_tinggal_wali' => 'required',
-            'wali_id' => 'required',
-            'siswa_id' => 'required',
-            'status_dok_wali' => 'required',
-        ], [
-            'nik_wali.required' => 'NIK Ibu wajib diisi.',
-            'nik_wali.digits' => 'NIK Ibu harus terdiri dari 16 digit.',
-            'nama_wali.required' => 'Nama lengkap Ibu wajib diisi.',
-            'tempat_lahir_wali.required' => 'Tempat lahir Ibu wajib diisi.',
-            'tanggal_lahir_wali.required' => 'Tanggal lahir Ibu wajib diisi.',
-            'tanggal_lahir_wali.before' => 'Tanggal lahir harus sebelum hari ini.',
-            'status_wali.required' => 'Status Ibu wajib dipilih.',
-            'pendidikan_wali.required' => 'Pendidikan terakhir Ibu wajib dipilih.',
-            'pekerjaan_wali.required' => 'Pekerjaan Ibu wajib dipilih.',
-            'domisili_wali.required' => 'Domisili Ibu wajib dipilih.',
-            'no_hp_wali.required' => 'No HP Ibu wajib diisi.',
-            'no_hp_wali.regex' => 'No HP Ibu harus dimulai dengan 08 dan berisi 10-13 digit.',
-            'penghasilan_wali.required' => 'Penghasilan Ibu wajib dipilih.',
-            'alamat_wali.required' => 'Alamat Ibu wajib diisi.',
-            'wali_id.required' => '',
-            'status_tempat_tinggal_wali.required' => 'Status tempat tinggal wajib dipilih.',
-        ]
-    );
-    if ($validator->fails()) {
-        return back()
-        ->withErrors($validator, 'ibu')
-        ->withInput();
-    }
-        DokumenWali::create($validator->validate());
+        $userId = Auth::id(); // Mengambil ID user yang sedang login
 
-        return redirect()->back()->with('success', 'Data ibu berhasil disimpan!');
+        // Validasi input
+        $validator = Validator::make($request->all(), [
+            // Ayah
+            'pemilikan_rumah_ayah' => 'string|max:255',
+            'provinsi_ayah' => 'string|max:255',
+            'kab_kota_ayah' => 'string|max:255',
+            'kecamatan_ayah' => 'string|max:255',
+            'kel_des_ayah' => 'string|max:255',
+            'rt_ayah' => 'string|max:10',
+            'rw_ayah' => 'string|max:10',
+            'alamat_ayah' => 'string',
+            'kode_pos_ayah' => 'string|max:10',
+
+            // Ibu
+            'pemilikan_rumah_ibu' => 'string|max:255',
+            'provinsi_ibu' => 'string|max:255',
+            'kab_kota_ibu' => 'string|max:255',
+            'kecamatan_ibu' => 'string|max:255',
+            'kel_des_ibu' => 'string|max:255',
+            'rt_ibu' => 'string|max:10',
+            'rw_ibu' => 'string|max:10',
+            'alamat_ibu' => 'string',
+            'kode_pos_ibu' => 'string|max:10',
+
+            // Wali
+            'pemilikan_rumah_wali' => 'required|string|max:255',
+            'provinsi_wali' => 'required|string|max:255',
+            'kab_kota_wali' => 'required|string|max:255',
+            'kecamatan_wali' => 'required|string|max:255',
+            'kel_des_wali' => 'required|string|max:255',
+            'rt_wali' => 'required|string|max:10',
+            'rw_wali' => 'required|string|max:10',
+            'alamat_wali' => 'required|string',
+            'kode_pos_wali' => 'required|string|max:10',
+
+            // Siswa
+            'status_tempat_tinggal' => 'required|string|max:255',
+            'provinsi_siswa' => 'required|string|max:255',
+            'kab_kota_siswa' => 'required|string|max:255',
+            'kecamatan_siswa' => 'required|string|max:255',
+            'kel_des_siswa' => 'required|string|max:255',
+            'rt_siswa' => 'required|string|max:10',
+            'rw_siswa' => 'required|string|max:10',
+            'alamat_siswa' => 'required|string',
+            'kode_pos_siswa' => 'required|string|max:10',
+            'jarak' => 'required|string|max:255',
+            'transportasi' => 'required|string|max:255',
+            'waktu_tempuh' => 'required|string|max:255',
+
+            
+            ],
+            [
+                // 🔻 Ayah
+                // 'pemilikan_rumah_ayah.required' => 'Status kepemilikan rumah ayah wajib diisi.',
+                'pemilikan_rumah_ayah.string' => 'Status kepemilikan rumah ayah wajib diisi.',
+                'provinsi_ayah.string' => 'Provinsi tempat tinggal ayah wajib diisi.',
+                'kab_kota_ayah.string' => 'Kabupaten/Kota tempat tinggal ayah wajib diisi.',
+                'kecamatan_ayah.string' => 'Kecamatan tempat tinggal ayah wajib diisi.',
+                'kel_des_ayah.string' => 'Kelurahan/Desa tempat tinggal ayah wajib diisi.',
+                'rt_ayah.string' => 'RT ayah wajib diisi.',
+                'rw_ayah.string' => 'RW ayah wajib diisi.',
+                'alamat_ayah.string' => 'Alamat lengkap ayah wajib diisi.',
+                'kode_pos_ayah.string' => 'Kode pos ayah wajib diisi.',
+
+                // 🔻 Ibu
+                'pemilikan_rumah_ibu.string' => 'Status kepemilikan rumah ibu wajib diisi.',
+                'provinsi_ibu.string' => 'Provinsi tempat tinggal ibu wajib diisi.',
+                'kab_kota_ibu.string' => 'Kabupaten/Kota tempat tinggal ibu wajib diisi.',
+                'kecamatan_ibu.string' => 'Kecamatan tempat tinggal ibu wajib diisi.',
+                'kel_des_ibu.string' => 'Kelurahan/Desa tempat tinggal ibu wajib diisi.',
+                'rt_ibu.string' => 'RT ibu wajib diisi.',
+                'rw_ibu.string' => 'RW ibu wajib diisi.',
+                'alamat_ibu.string' => 'Alamat lengkap ibu wajib diisi.',
+                'kode_pos_ibu.string' => 'Kode pos ibu wajib diisi.',
+
+                // 🔻 Wali
+                'pemilikan_rumah_wali.required' => 'Status kepemilikan rumah wali wajib diisi.',
+                'provinsi_wali.required' => 'Provinsi tempat tinggal wali wajib diisi.',
+                'kab_kota_wali.required' => 'Kabupaten/Kota tempat tinggal wali wajib diisi.',
+                'kecamatan_wali.required' => 'Kecamatan tempat tinggal wali wajib diisi.',
+                'kel_des_wali.required' => 'Kelurahan/Desa tempat tinggal wali wajib diisi.',
+                'rt_wali.required' => 'RT wali wajib diisi.',
+                'rw_wali.required' => 'RW wali wajib diisi.',
+                'alamat_wali.required' => 'Alamat lengkap wali wajib diisi.',
+                'kode_pos_wali.required' => 'Kode pos wali wajib diisi.',
+
+                // 🔻 Siswa
+                'status_tempat_tinggal.required' => 'Status tempat tinggal siswa wajib diisi.',
+                'provinsi_siswa.required' => 'Provinsi tempat tinggal siswa wajib diisi.',
+                'kab_kota_siswa.required' => 'Kabupaten/Kota tempat tinggal siswa wajib diisi.',
+                'kecamatan_siswa.required' => 'Kecamatan tempat tinggal siswa wajib diisi.',
+                'kel_des_siswa.required' => 'Kelurahan/Desa tempat tinggal siswa wajib diisi.',
+                'rt_siswa.required' => 'RT siswa wajib diisi.',
+                'rw_siswa.required' => 'RW siswa wajib diisi.',
+                'alamat_siswa.required' => 'Alamat lengkap siswa wajib diisi.',
+                'kode_pos_siswa.required' => 'Kode pos siswa wajib diisi.',
+                'jarak.required' => 'Jarak rumah ke sekolah wajib diisi.',
+                'transportasi.required' => 'Transportasi yang digunakan wajib diisi.',
+                'waktu_tempuh.required' => 'Waktu tempuh ke sekolah wajib diisi.',
+
+            ]
+        );
+
+        if ($validator->fails()) {
+            return back()
+                ->withErrors($validator, 'alamat')
+                ->withInput();
+        }
+
+        // Simpan data ke database
+        $validatedData = $validator->validated();
+        $validatedData['alamatSiswa_id'] = $userId;
+        $validatedData['status_dok_alamat'] = 'menunggu';
+
+        $validatedData['pemilikan_rumah_ayah'] = $validatedData['pemilikan_rumah_ayah'] ?? '';
+        $validatedData['provinsi_ayah'] = $validatedData['provinsi_ayah'] ?? '';
+        $validatedData['kab_kota_ayah'] = $validatedData['kab_kota_ayah'] ?? '';
+        $validatedData['kecamatan_ayah'] = $validatedData['kecamatan_ayah'] ?? '';
+        $validatedData['kel_des_ayah'] = $validatedData['kel_des_ayah'] ?? '';
+        $validatedData['rw_ayah'] = $validatedData['rw_ayah'] ?? '';
+        $validatedData['rt_ayah'] = $validatedData['rt_ayah'] ?? '';
+        $validatedData['alamat_ayah'] = $validatedData['alamat_ayah'] ?? '';
+        $validatedData['kode_pos_ayah'] = $validatedData['kode_pos_ayah'] ?? '';
+
+
+        $validatedData['pemilikan_rumah_ibu'] = $validatedData['pemilikan_rumah_ibu'] ?? '';
+        $validatedData['provinsi_ibu'] = $validatedData['provinsi_ibu'] ?? '';
+        $validatedData['kab_kota_ibu'] = $validatedData['kab_kota_ibu'] ?? '';
+        $validatedData['kecamatan_ibu'] = $validatedData['kecamatan_ibu'] ?? '';
+        $validatedData['kel_des_ibu'] = $validatedData['kel_des_ibu'] ?? '';
+        $validatedData['rw_ibu'] = $validatedData['rw_ibu'] ?? '';
+        $validatedData['rt_ibu'] = $validatedData['rt_ibu'] ?? '';
+        $validatedData['alamat_ibu'] = $validatedData['alamat_ibu'] ?? '';
+        $validatedData['kode_pos_ibu'] = $validatedData['kode_pos_ibu'] ?? '';
+
+        Alamat::create($validatedData);
+
+        return redirect()->back()
+        ->with('success_alamat', 'Semua formulir telah diisi dengan benar.')
+        ->with('info_alamat', 'Silahkan lihat statusnya dihalaman formulir!');
     }
     /**
      * Store a newly created resource in storage.

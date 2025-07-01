@@ -16,9 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained(
                 'users'
             );
-            $table->foreignId('alamat_id')->nullable()->constrained(
-                'alamat'
-            );
+            
             // Data Pribadi
             $table->string('nama_lengkap');
             $table->string('nisn')->unique();
