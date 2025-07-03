@@ -79,10 +79,10 @@
         <!-- Menu untuk Role Admin -->
         @if(Auth::user() && Auth::user()->role === 'admin')
         <li class="nav-item">
-          <a href="/data-pendaftar" class="nav-link">
+          <x-sidelink href="{{ route('pendaftar') }}" :active="request()->is('pendaftar')">
             <i class="nav-icon fas fa-users"></i>
             <p>Data Pendaftar</p>
-          </a>
+          </x-sidelink>
         </li>
         <li class="nav-item">
           <a href="/verifikasi" class="nav-link">

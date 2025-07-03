@@ -9,4 +9,12 @@ class Timeline extends Model
 {
     /** @use HasFactory<\Database\Factories\TimelineFactory> */
     use HasFactory;
+    protected $fillable = [
+        'judul',
+        'konten',
+        'icon',
+        'color',
+        'tanggal',
+        'waktu',
+    ];
 }

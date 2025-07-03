@@ -1,7 +1,98 @@
 <x-layout>
     <div class="col-md-12">
-        <div class="timeline">
+        @if (auth()->user()->role == 'admin')
+            <div class="col-md-10 m-auto">
+                <!-- general form elements -->
+                <div class="card card-primary collapsed-card mb-5"> 
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah Timeline</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <div class="card-body">
 
+                        <form method="POST" action="{{ route('input_timeline') }}">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            @csrf
+                            <div class="card-body">
+                                {{-- Judul --}}
+                                <div class="mb-3">
+                                    <label for="judul">Judul</label>
+                                    <input type="text" id="judul" name="judul" class="form-control @error('judul') is-invalid @enderror" value="{{ old('judul') }}">
+                                    @error('judul')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+    
+                                {{-- Konten --}}
+                                <div class="mb-3">
+                                    <label for="konten">Isi</label>
+                                    <textarea id="konten" name="konten" class="form-control @error('konten') is-invalid @enderror" rows="4">{{ old('konten') }}</textarea>
+                                    @error('konten')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+    
+                                {{-- Icon --}}
+                                <div class="mb-3">
+                                    <label for="icon">Icon (Font Awesome Class)</label>
+                                    <select id="icon" name="icon" class="form-control @error('icon') is-invalid @enderror">
+                                        <option value="">-- Pilih Ikon --</option>
+                                        <option value="fas fa-bullhorn" {{ old('icon') == 'fas fa-bullhorn' ? 'selected' : '' }}>📢 Pendaftaran Dibuka</option>
+                                        <option value="fas fa-user-plus" {{ old('icon') == 'fas fa-user-plus' ? 'selected' : '' }}>👤 Akun Baru</option>
+                                        <option value="fas fa-check-circle" {{ old('icon') == 'fas fa-check-circle' ? 'selected' : '' }}>✔️ Verifikasi Berhasil</option>
+                                        <option value="fas fa-times-circle" {{ old('icon') == 'fas fa-times-circle' ? 'selected' : '' }}>❌ Verifikasi Ditolak</option>
+                                        <option value="fas fa-calendar-alt" {{ old('icon') == 'fas fa-calendar-alt' ? 'selected' : '' }}>🗓️ Jadwal</option>
+                                        <option value="fas fa-envelope" {{ old('icon') == 'fas fa-envelope' ? 'selected' : '' }}>✉️ Pengumuman</option>
+                                        <option value="fas fa-user-graduate" {{ old('icon') == 'fas fa-user-graduate' ? 'selected' : '' }}>🎓 Dinyatakan Lulus</option>
+                                    </select>
+                                    @error('icon')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+    
+                                {{-- Warna Latar Ikon --}}
+                                <div class="mb-3">
+                                    <label for="color">Warna Latar Ikon</label>
+                                    <select id="color" name="color" class="form-control @error('color') is-invalid @enderror">
+                                        <option value="">-- Pilih Warna --</option>
+                                        <option value="bg-blue" {{ old('color') == 'bg-blue' ? 'selected' : '' }}>Biru (Informasi)</option>
+                                        <option value="bg-green" {{ old('color') == 'bg-green' ? 'selected' : '' }}>Hijau (Berhasil)</option>
+                                        <option value="bg-yellow" {{ old('color') == 'bg-yellow' ? 'selected' : '' }}>Kuning (Peringatan)</option>
+                                        <option value="bg-red" {{ old('color') == 'bg-red' ? 'selected' : '' }}>Merah (Gagal)</option>
+                                        <option value="bg-purple" {{ old('color') == 'bg-purple' ? 'selected' : '' }}>Ungu (Ujian)</option>
+                                        <option value="bg-gray" {{ old('color') == 'bg-gray' ? 'selected' : '' }}>Abu-abu (Netral)</option>
+                                    </select>
+                                    @error('color')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+    
+                                {{-- Submit --}}
+                                <div class="mt-3">
+                                    <button type="submit" class="btn btn-primary">Simpan</button>
+                                </div>
+    
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+            @endif
+
+        <div class="timeline">
             @if($timelines->pluck('judul')->filter()->isEmpty())
                 <!-- Timeline Kosong -->
                 <div class="text-center my-5">

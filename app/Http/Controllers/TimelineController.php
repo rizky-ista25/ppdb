@@ -32,7 +32,38 @@ class TimelineController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validasi data input
+        $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten' => 'required|string',
+            'icon' => 'required|string',
+            'color' => 'required|string',
+        ],
+            [
+            'judul.required' => 'Judul wajib diisi.',
+            'judul.max' => 'Judul tidak boleh lebih dari 255 karakter.',
+
+            'konten.required' => 'Isi tidak boleh kosong.',
+
+            'icon.required' => 'Pilih salah satu ikon.',
+            'icon.string' => 'Format ikon tidak valid.',
+
+            'color.required' => 'Pilih salah satu warna latar ikon.',
+            'color.string' => 'Format warna tidak valid.',
+        ]
+    );
+
+        // Simpan ke database
+        Timeline::create([
+            'tanggal' => Carbon::now()->toDateString(), // hasil: '2025-07-03'
+            'waktu'   => Carbon::now()->toTimeString(), // hasil: '14:25:30'
+            'judul' => $request->judul,
+            'konten' => $request->konten,
+            'icon' => $request->icon,
+            'color' => $request->color,
+        ]);
+
+        return redirect()->back()->with('timeline', 'Timeline berhasil disimpan!');
     }
 
     /**
