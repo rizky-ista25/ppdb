@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Siswa;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class VerifikasiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $jmlSiswa = User::where('role','=','siswa')->count();
-        $berkasSiswa = DB::table('siswa')->select('*')
-        ->join('users', 'users.id', '=', 'siswa.user_id')
-        ->count();
-         return view('index', compact('jmlSiswa', 'berkasSiswa'));
+        $dataSiswa = Siswa::all();
+        return view('verifikasi', compact('dataSiswa'));
     }
 
     /**

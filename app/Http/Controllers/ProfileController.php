@@ -2,22 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class DashboardController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $jmlSiswa = User::where('role','=','siswa')->count();
-        $berkasSiswa = DB::table('siswa')->select('*')
-        ->join('users', 'users.id', '=', 'siswa.user_id')
-        ->count();
-         return view('index', compact('jmlSiswa', 'berkasSiswa'));
+        return view('profile');
     }
 
     /**
@@ -47,9 +41,9 @@ class DashboardController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        return view('edit_profile');
     }
 
     /**

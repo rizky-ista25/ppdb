@@ -11,7 +11,7 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-            <h3 class="card-title">Data Calon Peserta Didik</h3>
+            <h3 class="card-title">Berkas Calon Peserta Didik</h3>
             </div>
             <!-- /.card-header -->
             <div class="card-body">
@@ -22,7 +22,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
+                            <th>NISN</th>
+                            <th>Tempat Lahir</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Umur</th>
                             <th class="no-export">Aksi</th>
                         </tr>
                         </thead>
@@ -32,8 +35,18 @@
                         @php $no = $item + 1; @endphp
                             <tr>
                                 <td>{{ $no }}</td>
-                                <td>{{ $siswa->name }}</td>
-                                <td>{{ $siswa->email }}</td>
+                                <td>{{ $siswa->nama_lengkap }}</td>
+                                <td>{{ $siswa->nisn }}</td>
+                                <td>{{ $siswa->tempat_lahir }}</td>
+                                <td>{{ $siswa->tanggal_lahir }}</td>
+                                <td>
+                                    @php
+                                        $lahir = \Carbon\Carbon::parse($siswa->tanggal_lahir);
+                                        $now = \Carbon\Carbon::now();
+                                        $selisih = $lahir->diff($now);
+                                    @endphp
+                                    {{ $selisih->y }} thn, {{ $selisih->m }} bln
+                                </td>
                                 <td>
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -41,7 +54,7 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item text-primary" href="#">Detail</a>  <!-- warna biru -->
-                                            <a class="dropdown-item text-danger" data-nama="{{ $siswa->name }}" data-id="{{ $siswa->id }}" onclick="hapus(this)" href="#">Hapus</a>    <!-- warna merah -->
+                                            <a class="dropdown-item text-danger" data-nama="{{ $siswa->nama_lengkap }}" data-id="{{ $siswa->user_id }}" onclick="hapus(this)" href="#">Hapus</a>    <!-- warna merah -->
                                         </div>
                                     </div>
         
@@ -53,7 +66,10 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Lengkap</th>
-                            <th>Email</th>
+                            <th>NISN</th>
+                            <th>Tempat Lahir</th>
+                            <th>Tanggal Lahir</th>
+                            <th>Umur</th>
                             <th>Aksi</th>
                         </tr>
                         </tfoot>
@@ -101,6 +117,20 @@
 
             });
         }
-        let table = new DataTable('#myTable');
+        let table = new DataTable('#myTable', {
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Data Pendaftar',
+                    text: 'Unduh Excel',
+                    filename: 'data_pendaftar',
+                    exportOptions: {
+                        columns: ':not(.no-export)' // abaikan kolom aksi
+                    }
+                }
+            ]
+        });
+
     </script>
 </x-layout>

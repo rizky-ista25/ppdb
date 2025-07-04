@@ -1,5 +1,5 @@
 @if (Auth::user()->role == 'admin')
-    <x-layout>
+    <x-layout title="Dashboard">
         <style>
             body {
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -82,15 +82,15 @@
             </div>
 
             <div class="dashboard-cards">
-                <div class="card">
+                <div class="card" style="cursor: pointer;" onclick="pendaftar()">
                     <i class="fas fa-user-plus"></i>
-                    <h2>Pendaftar Baru</h2>
-                    <p>23 siswa</p>
+                    <h2>Pendaftar</h2>
+                    <p>{{ $jmlSiswa }} siswa</p>
                 </div>
-                <div class="card">
+                <div class="card" style="cursor: pointer;" onclick="verifikasi()">
                     <i class="fas fa-file-alt"></i>
                     <h2>Verifikasi Berkas</h2>
-                    <p>15 siswa</p>
+                    <p>{{ $berkasSiswa }} siswa</p>
                 </div>
                 <div class="card">
                     <i class="fas fa-check-circle"></i>
@@ -108,9 +108,17 @@
                 &copy; 2025 MA Quantum IDEA - Sistem Informasi PPDB
             </div>
         </div>
+        <script>
+            function pendaftar() {
+                window.location.href = "{{ route('pendaftar') }}";
+            }
+            function verifikasi() {
+                window.location.href = "{{ route('verifikasi') }}";
+            }
+        </script>
     </x-layout>
 @else
-<x-layout>
+<x-layout title="Dashboard">
     @php
     
         $fullName = Auth::user()->name;

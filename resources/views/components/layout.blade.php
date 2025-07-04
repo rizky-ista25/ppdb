@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="shortcut icon" href="{{asset('image/quantum.jpg')}}" type="image/x-icon">
-  <title>PPDB Quantum IDEA</title>
+  <title>PPDB Quantum IDEA | {{ $title ?? '' }}</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -102,9 +102,5 @@
 <script src="{{'admin'}}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
 <!-- AdminLTE App -->
 <script src="{{'admin'}}/dist/js/adminlte.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{'admin'}}/dist/js/demo.js"></script>
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="{{'admin'}}/dist/js/pages/dashboard.js"></script>
 </body>
 </html>

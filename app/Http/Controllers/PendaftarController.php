@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Siswa;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PendaftarController extends Controller
@@ -12,7 +13,7 @@ class PendaftarController extends Controller
      */
     public function index()
     {
-        $dataSiswa = Siswa::all();
+        $dataSiswa = User::where('role', 'siswa')->get();
         return view('pendaftar', compact('dataSiswa'));
     }
 

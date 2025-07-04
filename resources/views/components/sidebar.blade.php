@@ -11,7 +11,7 @@
     <!-- Sidebar user panel -->
     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
       <div class="image">
-        <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
+        <img src="{{ asset('image/icon-quantum.png') }}" class="img-circle elevation-2" alt="User Image">
       </div>
       <div class="info">
         <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -85,10 +85,10 @@
           </x-sidelink>
         </li>
         <li class="nav-item">
-          <a href="/verifikasi" class="nav-link">
+          <x-sidelink href="{{ route('verifikasi') }}" :active="request()->is('verifikasi')">
             <i class="nav-icon fas fa-check-circle"></i>
             <p>Verifikasi</p>
-          </a>
+          </x-sidelink>
         </li>
         <li class="nav-item">
           <x-sidelink href="/timeline" :active="request()->is('timeline')">
