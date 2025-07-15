@@ -43,7 +43,7 @@
                                     <label for="judul">Judul</label>
                                     <input type="text" id="judul" name="judul" class="form-control @error('judul') is-invalid @enderror" value="{{ old('judul') }}">
                                     @error('judul')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('judul') }}</div>
                                     @enderror
                                 </div>
     
@@ -53,9 +53,13 @@
                                     <textarea id="konten" name="konten" 
                                         class="form-control summernote @error('konten') is-invalid @enderror" 
                                         rows="6">{{ old('konten') }}</textarea>
+                                    
+                                    {{-- Hidden input untuk menyimpan gambar sementara --}}
+                                    {{-- Gambar akan disimpan di folder temp terlebih dahulu, baru dipindahkan ke folder permanen saat form disubmit --}}
+                                    <input type="hidden" id="temp_images" name="temp_images" value="{{ old('temp_images') }}">
 
                                     @error('konten')
-                                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                                        <div class="invalid-feedback d-block">{{ $errors->first('konten') }}</div>
                                     @enderror
                                 </div>
 
@@ -74,7 +78,7 @@
                                         <option value="fas fa-user-graduate" {{ old('icon') == 'fas fa-user-graduate' ? 'selected' : '' }}>🎓 Dinyatakan Lulus</option>
                                     </select>
                                     @error('icon')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('icon') }}</div>
                                     @enderror
                                 </div>
     
@@ -91,7 +95,7 @@
                                         <option value="bg-gray" {{ old('color') == 'bg-gray' ? 'selected' : '' }}>Abu-abu (Netral)</option>
                                     </select>
                                     @error('color')
-                                        <div class="invalid-feedback">{{ $message }}</div>
+                                        <div class="invalid-feedback">{{ $errors->first('color') }}</div>
                                     @enderror
                                 </div>
     
@@ -142,7 +146,7 @@
                                 {!! $timeline->konten !!}
                             </div>
                             <div class="timeline-footer {{ auth()->user()->role == 'admin' ? '' : 'd-none' }}" >
-                                <a class="btn btn-primary btn-sm">Edit</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('edit_timeline', $timeline->id) }}">Edit</a>
                                 <a class="btn btn-danger btn-sm" data-id="{{ $timeline->id }}" onclick="hapus(this)">Hapus</a>
                             </div>
                         </div>
@@ -192,6 +196,35 @@
 
         // Summernote textarea
         $(document).ready(function() {
+            // Flag untuk menandai form sudah disubmit
+            let formSubmitted = false;
+
+            // Event listener untuk form submit
+            $('form').on('submit', function() {
+                formSubmitted = true;
+                // Form akan disubmit, gambar sementara akan dipindahkan ke folder permanen
+            });
+
+            // Event listener untuk sebelum halaman unload (refresh/close)
+            $(window).on('beforeunload', function() {
+                // Jika form belum disubmit dan ada gambar sementara, hapus gambar sementara
+                if (!formSubmitted) {
+                    let tempImages = $('#temp_images').val();
+                    if (tempImages) {
+                        // Kirim request untuk menghapus gambar sementara
+                        $.ajax({
+                            url: '{{ route("timeline.cleanup-temp") }}',
+                            type: 'POST',
+                            data: {
+                                temp_images: tempImages,
+                                _token: '{{ csrf_token() }}'
+                            },
+                            async: false // Pastikan request selesai sebelum halaman unload
+                        });
+                    }
+                }
+            });
+
             $('.summernote').summernote({
                 placeholder: 'Tulis isi konten di sini...',
                 tabsize: 2,
@@ -222,13 +255,19 @@
                 data.append("_token", "{{ csrf_token() }}");
 
                 $.ajax({
-                    url: '{{ route("timeline.upload-image") }}',
+                    url: '{{ route("timeline.upload-temp-image") }}',
                     type: 'POST',
                     data: data,
                     contentType: false,
                     processData: false,
                     success: function(response) {
                         $('.summernote').summernote('insertImage', response.location);
+                        
+                        // Simpan path gambar sementara ke hidden input
+                        let currentTempImages = $('#temp_images').val();
+                        let tempImagesArray = currentTempImages ? currentTempImages.split(',') : [];
+                        tempImagesArray.push(response.location);
+                        $('#temp_images').val(tempImagesArray.join(','));
                     },
                     error: function() {
                         alert('Gagal mengupload gambar');

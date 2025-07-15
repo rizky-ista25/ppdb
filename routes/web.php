@@ -26,7 +26,7 @@ Route::get('/verifikasi',[VerifikasiController::class, 'index'])->name('verifika
 
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::get('/profile_edit', [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
-
+Route::get('/hapus_siswa/{id}', [PendaftarController::class, 'destroy'])->name('hapus_siswa')->middleware('auth');
 
 Route::get('/login', [LoginController::class, 'index'])->name('login')->middleware('guest');
 Route::post('/login', [LoginController::class, 'login'])->middleware('guest');
@@ -36,5 +36,12 @@ Route::get('/logout', [LoginController::class, 'logout']);
 
 Route::get('/timeline', [TimelineController::class, 'index'])->name('timeline')->middleware('auth');
 Route::post('/timeline/upload-image', [TimelineController::class, 'uploadImage'])->name('timeline.upload-image');
+Route::post('/timeline/upload-temp-image', [TimelineController::class, 'uploadTempImage'])->name('timeline.upload-temp-image');
+Route::post('/timeline/cleanup-temp', [TimelineController::class, 'cleanupSpecificTempImages'])->name('timeline.cleanup-temp');
 Route::get('/hapus_timeline/{id}', [TimelineController::class, 'destroy'])->name('hapus_timeline')->middleware('auth');
 Route::post('/input_timeline', [TimelineController::class, 'store'])->name('input_timeline')->middleware('auth');
+Route::get('/edit_timeline-{id}', [TimelineController::class, 'edit'])->name('edit_timeline')->middleware('auth');
+Route::post('/update_timeline/{id}', [TimelineController::class, 'update'])->name('update_timeline')->middleware('auth');
+Route::get('/edit_siswa-{id}', [PendaftarController::class, 'editSiswa'])->name('edit_siswa')->middleware('auth');
+Route::post('/update_siswa/{id}', [PendaftarController::class, 'updateSiswa'])->name('update_siswa')->middleware('auth');
+Route::get('/detail_verifikasi-{nisn}', [PendaftarController::class, 'detailVerifikasi'])->name('detail_verifikasi')->middleware('auth');

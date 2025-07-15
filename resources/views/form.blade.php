@@ -65,6 +65,10 @@
                 width: 100% !important;
             }
         }
+        select[readonly] {
+            pointer-events: none;
+            background: #eee;
+        }
     </style>
 
     <div class="container">
@@ -683,7 +687,8 @@
                             <label>Status Kepemilikan Rumah</label>
                             <select class="form-control" name="pemilikan_rumah_ayah" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
                                 <option value=""></option>
-                                <option value="Milik Sendiri Rumah Orang Tua" {{ old('pemilikan_rumah_ayah') == 'Milik Sendiri Rumah Orang Tua' ? 'selected' : '' }}>Milik Sendiri Rumah Orang Tua</option>
+                                <option value="Milik Sendiri" {{ old('pemilikan_rumah_ayah') == 'Milik Sendiri' ? 'selected' : '' }}>Milik Sendiri</option>
+                                <option value="Rumah Orang Tua" {{ old('pemilikan_rumah_ayah') == 'Rumah Orang Tua' ? 'selected' : '' }}>Rumah Orang Tua</option>
                                 <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_ayah') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
                                 <option value="Rumah Dinas" {{ old('pemilikan_rumah_ayah') == 'Rumah Dinas' ? 'selected' : '' }}>Rumah Dinas</option>
                                 <option value="Sewa/kontrak" {{ old('pemilikan_rumah_ayah') == 'Sewa/kontrak' ? 'selected' : '' }}>Sewa/kontrak</option>
@@ -700,7 +705,10 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <input type="text" class="form-control" name="provinsi_ayah" id="provinsi_ayah" value="{{ old('provinsi_ayah') }}" {{isset($statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                            <select class="form-control" name="provinsi_ayah" id="provinsi_ayah" {{isset(
+                                $statusOrtu) && $statusOrtu->status_ayah == 'meninggal' ? 'disabled' : '' }}>
+                                <option value="">Pilih Provinsi</option>
+                            </select>
                             @error('provinsi_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -708,7 +716,9 @@
 
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <input type="text" class="form-control" name="kab_kota_ayah" id="kab_kota_ayah" value="{{ old('kab_kota_ayah') }}" disabled>
+                            <select class="form-control" name="kab_kota_ayah" id="kab_kota_ayah" disabled>
+                                <option value="">Pilih Kabupaten/Kota</option>
+                            </select>
                             @error('kab_kota_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -718,7 +728,9 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_ayah" id="kecamatan_ayah" value="{{ old('kecamatan_ayah') }}" disabled>
+                            <select class="form-control" name="kecamatan_ayah" id="kecamatan_ayah" disabled>
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
                             @error('kecamatan_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -726,7 +738,9 @@
 
                         <div class="col-md-6">
                             <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_ayah" id="kel_des_ayah" value="{{ old('kel_des_ayah') }}" disabled>
+                            <select class="form-control" name="kel_des_ayah" id="kel_des_ayah" disabled>
+                                <option value="">Pilih Kelurahan/Desa</option>
+                            </select>
                             @error('kel_des_ayah','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -777,6 +791,7 @@
                             <select class="form-control" name="pemilikan_rumah_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
                                 <option value=""></option>
                                 {{-- <option value="Sama Dengan Ayah" {{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? 'selected' : '' }}>Milik Sendiri</option> --}}
+                                <option value="Sama Dengan Ayah" {{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? 'selected' : '' }}>Sama Dengan Ayah</option>
                                 <option value="Milik Sendiri" {{ old('pemilikan_rumah_ibu') == 'Milik Sendiri' ? 'selected' : '' }}>Milik Sendiri</option>
                                 <option value="Rumah Orang Tua" {{ old('pemilikan_rumah_ibu') == 'Rumah Orang Tua' ? 'selected' : '' }}>Rumah Orang Tua</option>
                                 <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_ibu') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
@@ -794,33 +809,38 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <input type="text" class="form-control" name="provinsi_ibu" id="provinsi_ibu" value="{{ old('provinsi_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            <select class="form-control" name="provinsi_ibu" id="provinsi_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                                <option value="">Pilih Provinsi</option>
+                            </select>
                             @error('provinsi_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <input type="text" class="form-control" name="kab_kota_ibu" id="kab_kota_ibu" value="{{ old('kab_kota_ibu') }}" disabled>
+                            <select class="form-control" name="kab_kota_ibu" id="kab_kota_ibu" disabled>
+                                <option value="">Pilih Kabupaten/Kota</option>
+                            </select>
                             @error('kab_kota_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
-
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_ibu" id="kecamatan_ibu" value="{{ old('kecamatan_ibu') }}" disabled>
+                            <select class="form-control" name="kecamatan_ibu" id="kecamatan_ibu" disabled>
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
                             @error('kecamatan_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
                             <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_ibu" id="kel_des_ibu" value="{{ old('kel_des_ibu') }}" disabled>
+                            <select class="form-control" name="kel_des_ibu" id="kel_des_ibu" disabled>
+                                <option value="">Pilih Kelurahan/Desa</option>
+                            </select>
                             @error('kel_des_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -831,7 +851,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>RT</label>
-                            <input type="text" class="form-control" name="rt_ibu" value="{{ old('rt_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            <input type="text" class="form-control" name="rt_ibu" value="{{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('rt_ayah') : old('rt_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
                             @error('rt_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -839,7 +859,7 @@
 
                         <div class="col-md-6">
                             <label>RW</label>
-                            <input type="text" class="form-control" name="rw_ibu" value="{{ old('rw_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            <input type="text" class="form-control" name="rw_ibu" value="{{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('rw_ayah') : old('rw_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
                             @error('rw_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -849,12 +869,12 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Alamat</label>
-                            <textarea class="form-control" name="alamat_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>{{ old('alamat_ibu') }}</textarea>
+                            <textarea class="form-control" name="alamat_ibu" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>{{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('alamat_ayah') : old('alamat_ibu') }}</textarea>
                         </div>
 
                         <div class="col-md-6">
                             <label>Kode Pos</label>
-                            <input type="text" class="form-control" name="kode_pos_ibu" value="{{ old('kode_pos_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
+                            <input type="text" class="form-control" name="kode_pos_ibu" value="{{ old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('kode_pos_ayah') : old('kode_pos_ibu') }}" {{isset($statusOrtu) && $statusOrtu->status_ibu == 'meninggal' ? 'disabled' : '' }}>
                             @error('kode_pos_ibu','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -870,7 +890,10 @@
                             <label>Status Kepemilikan Rumah</label>
                             <select class="form-control" name="pemilikan_rumah_wali">
                                 <option value=""></option>
-                                <option value="Milik Sendiri Rumah Orang Tua" {{ old('pemilikan_rumah_wali') == 'Milik Sendiri Rumah Orang Tua' ? 'selected' : '' }}>Milik Sendiri Rumah Orang Tua</option>
+                                <option value="Sama dengan Ayah" {{ old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? 'selected' : '' }}>Sama dengan Ayah</option>
+                                <option value="Sama dengan Ibu" {{ old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? 'selected' : '' }}>Sama dengan Ibu</option>
+                                <option value="Milik Sendiri" {{ old('pemilikan_rumah_wali') == 'Milik Sendiri' ? 'selected' : '' }}>Milik Sendiri</option>
+                                <option value="Rumah Orang Tua" {{ old('pemilikan_rumah_wali') == 'Rumah Orang Tua' ? 'selected' : '' }}>Rumah Orang Tua</option>
                                 <option value="Rumah Saudara/kerabat" {{ old('pemilikan_rumah_wali') == 'Rumah Saudara/kerabat' ? 'selected' : '' }}>Rumah Saudara/kerabat</option>
                                 <option value="Rumah Dinas" {{ old('pemilikan_rumah_wali') == 'Rumah Dinas' ? 'selected' : '' }}>Rumah Dinas</option>
                                 <option value="Sewa/kontrak" {{ old('pemilikan_rumah_wali') == 'Sewa/kontrak' ? 'selected' : '' }}>Sewa/kontrak</option>
@@ -886,7 +909,9 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <input type="text" class="form-control" name="provinsi_wali" id="provinsi_wali" value="{{ old('provinsi_wali') }}">
+                            <select class="form-control" name="provinsi_wali" id="provinsi_wali">
+                                <option value="">Pilih Provinsi</option>
+                            </select>
                             @error('provinsi_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -894,7 +919,9 @@
 
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <input type="text" class="form-control" name="kab_kota_wali" id="kab_kota_wali" value="{{ old('kab_kota_wali') }}" disabled>
+                            <select class="form-control" name="kab_kota_wali" id="kab_kota_wali" disabled>
+                                <option value="">Pilih Kabupaten/Kota</option>
+                            </select>
                             @error('kab_kota_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -904,7 +931,9 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_wali" id="kecamatan_wali" value="{{ old('kecamatan_wali') }}" disabled>
+                            <select class="form-control" name="kecamatan_wali" id="kecamatan_wali" disabled>
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
                             @error('kecamatan_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -912,7 +941,9 @@
 
                         <div class="col-md-6">
                             <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_wali" id="kel_des_wali" value="{{ old('kel_des_wali') }}" disabled>
+                            <select class="form-control" name="kel_des_wali" id="kel_des_wali" disabled>
+                                <option value="">Pilih Kelurahan/Desa</option>
+                            </select>
                             @error('kel_des_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -923,7 +954,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>RT</label>
-                            <input type="text" class="form-control" name="rt_wali" value="{{ old('rt_wali') }}">
+                            <input type="text" class="form-control" name="rt_wali" value="{{ old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('rt_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('rt_ibu') : old('rt_wali')) }}">
                             @error('rt_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -931,7 +962,7 @@
 
                         <div class="col-md-6">
                             <label>RW</label>
-                            <input type="text" class="form-control" name="rw_wali" value="{{ old('rw_wali') }}">
+                            <input type="text" class="form-control" name="rw_wali" value="{{ old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('rw_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('rw_ibu') : old('rw_wali')) }}">
                             @error('rw_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -941,7 +972,7 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Alamat</label>
-                            <textarea class="form-control" name="alamat_wali">{{ old('alamat_wali') }}</textarea>
+                            <textarea class="form-control" name="alamat_wali">{{ old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('alamat_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('alamat_ibu') : old('alamat_wali')) }}</textarea>
                             @error('alamat_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -949,7 +980,7 @@
 
                         <div class="col-md-6">
                             <label>Kode Pos</label>
-                            <input type="text" class="form-control" name="kode_pos_wali" value="{{ old('kode_pos_wali') }}">
+                            <input type="text" class="form-control" name="kode_pos_wali" value="{{ old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('kode_pos_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('kode_pos_ibu') : old('kode_pos_wali')) }}">
                             @error('kode_pos_wali','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -964,7 +995,7 @@
                         <div class="col-md-12">
                             <label>Status Tempat Tinggal</label>
                             <select class="form-control" name="status_tempat_tinggal">
-                                <option value="">Pilih Status Tempat Tinggal</option>
+                                <option value=""></option>
                                 <option value="Tinggal dengan Ayah Kandung" {{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? 'selected' : '' }}>Tinggal dengan Ayah Kandung</option>
                                 <option value="Tinggal dengan Ibu Kandung" {{ old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? 'selected' : '' }}>Tinggal dengan Ibu Kandung</option>
                                 <option value="Tinggal dengan Wali" {{ old('status_tempat_tinggal') == 'Tinggal dengan Wali' ? 'selected' : '' }}>Tinggal dengan Wali</option>
@@ -987,33 +1018,38 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Provinsi</label>
-                            <input type="text" class="form-control" name="provinsi_siswa" id="provinsi_siswa" value="{{ old('provinsi_siswa') }}">
+                            <select class="form-control" name="provinsi_siswa" id="provinsi_siswa">
+                                <option value="">Pilih Provinsi</option>
+                            </select>
                             @error('provinsi_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
                             <label>Kabupaten/Kota</label>
-                            <input type="text" class="form-control" name="kab_kota_siswa" id="kab_kota_siswa" value="{{ old('kab_kota_siswa') }}" disabled>
+                            <select class="form-control" name="kab_kota_siswa" id="kab_kota_siswa" disabled>
+                                <option value="">Pilih Kabupaten/Kota</option>
+                            </select>
                             @error('kab_kota_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                     </div>
-
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Kecamatan</label>
-                            <input type="text" class="form-control" name="kecamatan_siswa" id="kecamatan_siswa" value="{{ old('kecamatan_siswa') }}" disabled>
+                            <select class="form-control" name="kecamatan_siswa" id="kecamatan_siswa" disabled>
+                                <option value="">Pilih Kecamatan</option>
+                            </select>
                             @error('kecamatan_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-
                         <div class="col-md-6">
                             <label>Kelurahan/Desa</label>
-                            <input type="text" class="form-control" name="kel_des_siswa" id="kel_des_siswa" value="{{ old('kel_des_siswa') }}" disabled>
+                            <select class="form-control" name="kel_des_siswa" id="kel_des_siswa" disabled>
+                                <option value="">Pilih Kelurahan/Desa</option>
+                            </select>
                             @error('kel_des_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -1024,14 +1060,14 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>RT</label>
-                            <input type="text" class="form-control" name="rt_siswa" value="{{ old('rt_siswa') }}">
+                            <input type="text" class="form-control" name="rt_siswa" value="{{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('rt_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('rt_ibu') : old('rt_siswa')) }}">
                             @error('rt_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="col-md-6">
                             <label>RW</label>
-                            <input type="text" class="form-control" name="rw_siswa" value="{{ old('rw_siswa') }}">
+                            <input type="text" class="form-control" name="rw_siswa" value="{{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('rw_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('rw_ibu') : old('rw_siswa')) }}">
                             @error('rw_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -1041,11 +1077,11 @@
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label>Alamat</label>
-                            <textarea class="form-control" name="alamat_siswa">{{ old('alamat_siswa') }}</textarea>
+                            <textarea class="form-control" name="alamat_siswa">{{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('alamat_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('alamat_ibu') : old('alamat_siswa')) }}</textarea>
                         </div>
                         <div class="col-md-6">
                             <label>Kode Pos</label>
-                            <input type="text" class="form-control" name="kode_pos_siswa" value="{{ old('kode_pos_siswa') }}">
+                            <input type="text" class="form-control" name="kode_pos_siswa" value="{{ old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('kode_pos_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('kode_pos_ibu') : old('kode_pos_siswa')) }}">
                             @error('alamat_siswa','alamat')
                                 <small class="text-danger">{{ $message }}</small>
                             @enderror
@@ -1362,4 +1398,746 @@
         });
     </script>
     <script src="{{ 'js/field.js' }}"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.1/dist/sweetalert2.all.min.js"></script>
+    <script>
+        // Wilayah Indonesia untuk alamat ayah dengan fitur old()
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Load Provinsi
+            fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                .then(res => res.json())
+                .then(data => {
+                    const provinsiSelect = document.getElementById('provinsi_ayah');
+                    data.forEach(prov => {
+                        let opt = document.createElement('option');
+                        opt.value = prov.name;
+                        opt.setAttribute('data-id', prov.id);
+                        opt.textContent = prov.name;
+                        provinsiSelect.appendChild(opt);
+                    });
+                    // Set old value jika ada
+                    if (oldProvinsiAyah) {
+                        provinsiSelect.value = oldProvinsiAyah;
+                        provinsiSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+
+            document.getElementById('provinsi_ayah').addEventListener('change', function () {
+                const provId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kabSelect = document.getElementById('kab_kota_ayah');
+                kabSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                kabSelect.disabled = true;
+                document.getElementById('kecamatan_ayah').innerHTML = '<option value="">Pilih Kecamatan</option>';
+                document.getElementById('kecamatan_ayah').disabled = true;
+                document.getElementById('kel_des_ayah').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                document.getElementById('kel_des_ayah').disabled = true;
+
+                if (provId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kab => {
+                                let opt = document.createElement('option');
+                                opt.value = kab.name;
+                                opt.setAttribute('data-id', kab.id);
+                                opt.textContent = kab.name;
+                                kabSelect.appendChild(opt);
+                            });
+                            kabSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKabKotaAyah) {
+                                kabSelect.value = oldKabKotaAyah;
+                                kabSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+                }
+            });
+
+            document.getElementById('kab_kota_ayah').addEventListener('change', function () {
+                const kabId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kecSelect = document.getElementById('kecamatan_ayah');
+                kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                kecSelect.disabled = true;
+                document.getElementById('kel_des_ayah').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                document.getElementById('kel_des_ayah').disabled = true;
+
+                if (kabId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kec => {
+                                let opt = document.createElement('option');
+                                opt.value = kec.name;
+                                opt.setAttribute('data-id', kec.id);
+                                opt.textContent = kec.name;
+                                kecSelect.appendChild(opt);
+                            });
+                            kecSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKecamatanAyah) {
+                                kecSelect.value = oldKecamatanAyah;
+                                kecSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+                }
+            });
+
+            document.getElementById('kecamatan_ayah').addEventListener('change', function () {
+                const kecId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kelSelect = document.getElementById('kel_des_ayah');
+                kelSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                kelSelect.disabled = true;
+
+                if (kecId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kel => {
+                                let opt = document.createElement('option');
+                                opt.value = kel.name;
+                                opt.textContent = kel.name;
+                                kelSelect.appendChild(opt);
+                            });
+                            kelSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKelDesAyah) {
+                                kelSelect.value = oldKelDesAyah;
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Ambil value old dari Laravel untuk alamat wali
+        const oldProvinsiWali = @json(old('provinsi_wali'));
+        const oldKabKotaWali = @json(old('kab_kota_wali'));
+        const oldKecamatanWali = @json(old('kecamatan_wali'));
+        const oldKelDesWali = @json(old('kel_des_wali'));
+    </script>
+    <script>
+        // Wilayah Indonesia untuk alamat wali dengan fitur old()
+        document.addEventListener('DOMContentLoaded', function () {
+            // 1. Load Provinsi
+            fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                .then(res => res.json())
+                .then(data => {
+                    const provinsiSelect = document.getElementById('provinsi_wali');
+                    data.forEach(prov => {
+                        let opt = document.createElement('option');
+                        opt.value = prov.name;
+                        opt.setAttribute('data-id', prov.id);
+                        opt.textContent = prov.name;
+                        provinsiSelect.appendChild(opt);
+                    });
+                    // Set old value jika ada
+                    if (oldProvinsiWali) {
+                        provinsiSelect.value = oldProvinsiWali;
+                        provinsiSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+
+            document.getElementById('provinsi_wali').addEventListener('change', function () {
+                const provId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kabSelect = document.getElementById('kab_kota_wali');
+                kabSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                kabSelect.disabled = true;
+                document.getElementById('kecamatan_wali').innerHTML = '<option value="">Pilih Kecamatan</option>';
+                document.getElementById('kecamatan_wali').disabled = true;
+                document.getElementById('kel_des_wali').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                document.getElementById('kel_des_wali').disabled = true;
+
+                if (provId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kab => {
+                                let opt = document.createElement('option');
+                                opt.value = kab.name;
+                                opt.setAttribute('data-id', kab.id);
+                                opt.textContent = kab.name;
+                                kabSelect.appendChild(opt);
+                            });
+                            kabSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKabKotaWali) {
+                                kabSelect.value = oldKabKotaWali;
+                                kabSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+                }
+            });
+
+            document.getElementById('kab_kota_wali').addEventListener('change', function () {
+                const kabId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kecSelect = document.getElementById('kecamatan_wali');
+                kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                kecSelect.disabled = true;
+                document.getElementById('kel_des_wali').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                document.getElementById('kel_des_wali').disabled = true;
+
+                if (kabId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kec => {
+                                let opt = document.createElement('option');
+                                opt.value = kec.name;
+                                opt.setAttribute('data-id', kec.id);
+                                opt.textContent = kec.name;
+                                kecSelect.appendChild(opt);
+                            });
+                            kecSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKecamatanWali) {
+                                kecSelect.value = oldKecamatanWali;
+                                kecSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+                }
+            });
+
+            document.getElementById('kecamatan_wali').addEventListener('change', function () {
+                const kecId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kelSelect = document.getElementById('kel_des_wali');
+                kelSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                kelSelect.disabled = true;
+
+                if (kecId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kel => {
+                                let opt = document.createElement('option');
+                                opt.value = kel.name;
+                                opt.textContent = kel.name;
+                                kelSelect.appendChild(opt);
+                            });
+                            kelSelect.disabled = false;
+                            // Set old value jika ada
+                            if (oldKelDesWali) {
+                                kelSelect.value = oldKelDesWali;
+                            }
+                        });
+                }
+            });
+        });
+    </script>
+    <script>
+        // Ambil value old dari Laravel untuk alamat ibu
+        const oldProvinsiIbu = @json(old('provinsi_ibu'));
+        const oldKabKotaIbu = @json(old('kab_kota_ibu'));
+        const oldKecamatanIbu = @json(old('kecamatan_ibu'));
+        const oldKelDesIbu = @json(old('kel_des_ibu'));
+        // Ambil value old dari Laravel untuk alamat siswa
+        const oldProvinsiSiswa = @json(old('provinsi_siswa'));
+        const oldKabKotaSiswa = @json(old('kab_kota_siswa'));
+        const oldKecamatanSiswa = @json(old('kecamatan_siswa'));
+        const oldKelDesSiswa = @json(old('kel_des_siswa'));
+    </script>
+    <script>
+        // Wilayah Indonesia untuk alamat ibu dengan fitur old()
+        document.addEventListener('DOMContentLoaded', function () {
+            // IBU
+            fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                .then(res => res.json())
+                .then(data => {
+                    const provinsiSelect = document.getElementById('provinsi_ibu');
+                    data.forEach(prov => {
+                        let opt = document.createElement('option');
+                        opt.value = prov.name;
+                        opt.setAttribute('data-id', prov.id);
+                        opt.textContent = prov.name;
+                        provinsiSelect.appendChild(opt);
+                    });
+                    if (oldProvinsiIbu) {
+                        provinsiSelect.value = oldProvinsiIbu;
+                        provinsiSelect.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+            // IBU
+            document.getElementById('provinsi_ibu').addEventListener('change', function () {
+                const provId = this.options[this.selectedIndex].getAttribute('data-id');
+                const kabSelect = document.getElementById('kab_kota_ibu');
+                kabSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                kabSelect.disabled = true;
+                document.getElementById('kecamatan_ibu').innerHTML = '<option value="">Pilih Kecamatan</option>';
+                document.getElementById('kecamatan_ibu').disabled = true;
+                document.getElementById('kel_des_ibu').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                document.getElementById('kel_des_ibu').disabled = true;
+                if (provId) {
+                    fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                        .then(res => res.json())
+                        .then(data => {
+                            data.forEach(kab => {
+                                let opt = document.createElement('option');
+                                opt.value = kab.name;
+                                opt.setAttribute('data-id', kab.id);
+                                opt.textContent = kab.name;
+                                kabSelect.appendChild(opt);
+                            });
+                            kabSelect.disabled = false;
+                            if (oldKabKotaIbu) {
+                                kabSelect.value = oldKabKotaIbu;
+                                kabSelect.dispatchEvent(new Event('change'));
+                            }
+                        });
+            }
+        });
+        document.getElementById('kab_kota_ibu').addEventListener('change', function () {
+            const kabId = this.options[this.selectedIndex].getAttribute('data-id');
+            const kecSelect = document.getElementById('kecamatan_ibu');
+            kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            kecSelect.disabled = true;
+            document.getElementById('kel_des_ibu').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            document.getElementById('kel_des_ibu').disabled = true;
+            if (kabId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(kec => {
+                            let opt = document.createElement('option');
+                            opt.value = kec.name;
+                            opt.setAttribute('data-id', kec.id);
+                            opt.textContent = kec.name;
+                            kecSelect.appendChild(opt);
+                        });
+                        kecSelect.disabled = false;
+                        if (oldKecamatanIbu) {
+                            kecSelect.value = oldKecamatanIbu;
+                            kecSelect.dispatchEvent(new Event('change'));
+                        }
+                    });
+            }
+        });
+        document.getElementById('kecamatan_ibu').addEventListener('change', function () {
+            const kecId = this.options[this.selectedIndex].getAttribute('data-id');
+            const kelSelect = document.getElementById('kel_des_ibu');
+            kelSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            kelSelect.disabled = true;
+            if (kecId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(kel => {
+                            let opt = document.createElement('option');
+                            opt.value = kel.name;
+                            opt.textContent = kel.name;
+                            kelSelect.appendChild(opt);
+                        });
+                        kelSelect.disabled = false;
+                        if (oldKelDesIbu) {
+                            kelSelect.value = oldKelDesIbu;
+                        }
+                    });
+            }
+        });
+        // SISWA
+        fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+            .then(res => res.json())
+            .then(data => {
+                const provinsiSelect = document.getElementById('provinsi_siswa');
+                data.forEach(prov => {
+                    let opt = document.createElement('option');
+                    opt.value = prov.name;
+                    opt.setAttribute('data-id', prov.id);
+                    opt.textContent = prov.name;
+                    provinsiSelect.appendChild(opt);
+                });
+                if (oldProvinsiSiswa) {
+                    provinsiSelect.value = oldProvinsiSiswa;
+                    provinsiSelect.dispatchEvent(new Event('change'));
+                }
+            });
+        document.getElementById('provinsi_siswa').addEventListener('change', function () {
+            const provId = this.options[this.selectedIndex].getAttribute('data-id');
+            const kabSelect = document.getElementById('kab_kota_siswa');
+            kabSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+            kabSelect.disabled = true;
+            document.getElementById('kecamatan_siswa').innerHTML = '<option value="">Pilih Kecamatan</option>';
+            document.getElementById('kecamatan_siswa').disabled = true;
+            document.getElementById('kel_des_siswa').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            document.getElementById('kel_des_siswa').disabled = true;
+            if (provId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(kab => {
+                            let opt = document.createElement('option');
+                            opt.value = kab.name;
+                            opt.setAttribute('data-id', kab.id);
+                            opt.textContent = kab.name;
+                            kabSelect.appendChild(opt);
+                        });
+                        kabSelect.disabled = false;
+                        if (oldKabKotaSiswa) {
+                            kabSelect.value = oldKabKotaSiswa;
+                            kabSelect.dispatchEvent(new Event('change'));
+                        }
+                    });
+            }
+        });
+        document.getElementById('kab_kota_siswa').addEventListener('change', function () {
+            const kabId = this.options[this.selectedIndex].getAttribute('data-id');
+            const kecSelect = document.getElementById('kecamatan_siswa');
+            kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+            kecSelect.disabled = true;
+            document.getElementById('kel_des_siswa').innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            document.getElementById('kel_des_siswa').disabled = true;
+            if (kabId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(kec => {
+                            let opt = document.createElement('option');
+                            opt.value = kec.name;
+                            opt.setAttribute('data-id', kec.id);
+                            opt.textContent = kec.name;
+                            kecSelect.appendChild(opt);
+                        });
+                        kecSelect.disabled = false;
+                        if (oldKecamatanSiswa) {
+                            kecSelect.value = oldKecamatanSiswa;
+                            kecSelect.dispatchEvent(new Event('change'));
+                        }
+                    });
+            }
+        });
+        document.getElementById('kecamatan_siswa').addEventListener('change', function () {
+            const kecId = this.options[this.selectedIndex].getAttribute('data-id');
+            const kelSelect = document.getElementById('kel_des_siswa');
+            kelSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+            kelSelect.disabled = true;
+            if (kecId) {
+                fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                    .then(res => res.json())
+                    .then(data => {
+                        data.forEach(kel => {
+                            let opt = document.createElement('option');
+                            opt.value = kel.name;
+                            opt.textContent = kel.name;
+                            kelSelect.appendChild(opt);
+                        });
+                        kelSelect.disabled = false;
+                        if (oldKelDesSiswa) {
+                            kelSelect.value = oldKelDesSiswa;
+                        }
+                    });
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            function setupWilayah(prefix, oldProv, oldKab, oldKec, oldKel) {
+                // 1. Load Provinsi
+                fetch('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json')
+                    .then(res => res.json())
+                    .then(data => {
+                        const provinsiSelect = document.getElementById('provinsi_' + prefix);
+                        if (!provinsiSelect) return;
+                        data.forEach(prov => {
+                            let opt = document.createElement('option');
+                            opt.value = prov.name;
+                            opt.setAttribute('data-id', prov.id);
+                            opt.textContent = prov.name;
+                            provinsiSelect.appendChild(opt);
+                        });
+                        if (oldProv) {
+                            provinsiSelect.value = oldProv;
+                            provinsiSelect.dispatchEvent(new Event('change'));
+                        }
+                    });
+
+                const provSelect = document.getElementById('provinsi_' + prefix);
+                if (!provSelect) return;
+                provSelect.addEventListener('change', function () {
+                    const provId = this.options[this.selectedIndex].getAttribute('data-id');
+                    const kabSelect = document.getElementById('kab_kota_' + prefix);
+                    kabSelect.innerHTML = '<option value="">Pilih Kabupaten/Kota</option>';
+                    kabSelect.disabled = true;
+                    document.getElementById('kecamatan_' + prefix).innerHTML = '<option value="">Pilih Kecamatan</option>';
+                    document.getElementById('kecamatan_' + prefix).disabled = true;
+                    document.getElementById('kel_des_' + prefix).innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                    document.getElementById('kel_des_' + prefix).disabled = true;
+                    if (provId) {
+                        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/regencies/${provId}.json`)
+                            .then(res => res.json())
+                            .then(data => {
+                                data.forEach(kab => {
+                                    let opt = document.createElement('option');
+                                    opt.value = kab.name;
+                                    opt.setAttribute('data-id', kab.id);
+                                    opt.textContent = kab.name;
+                                    kabSelect.appendChild(opt);
+                                });
+                                kabSelect.disabled = false;
+                                if (oldKab) {
+                                    kabSelect.value = oldKab;
+                                    kabSelect.dispatchEvent(new Event('change'));
+                                }
+                            });
+                    }
+                });
+
+                const kabupatenSelect = document.getElementById('kab_kota_' + prefix);
+                if (!kabupatenSelect) return;
+                kabupatenSelect.addEventListener('change', function () {
+                    const kabId = this.options[this.selectedIndex].getAttribute('data-id');
+                    const kecSelect = document.getElementById('kecamatan_' + prefix);
+                    kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+                    kecSelect.disabled = true;
+                    document.getElementById('kel_des_' + prefix).innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                    document.getElementById('kel_des_' + prefix).disabled = true;
+                    if (kabId) {
+                        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/districts/${kabId}.json`)
+                            .then(res => res.json())
+                            .then(data => {
+                                data.forEach(kec => {
+                                    let opt = document.createElement('option');
+                                    opt.value = kec.name;
+                                    opt.setAttribute('data-id', kec.id);
+                                    opt.textContent = kec.name;
+                                    kecSelect.appendChild(opt);
+                                });
+                                kecSelect.disabled = false;
+                                if (oldKec) {
+                                    kecSelect.value = oldKec;
+                                    kecSelect.dispatchEvent(new Event('change'));
+                                }
+                            });
+                    }
+                });
+
+                const kecamatanSelect = document.getElementById('kecamatan_' + prefix);
+                if (!kecamatanSelect) return;
+                kecamatanSelect.addEventListener('change', function () {
+                    const kecId = this.options[this.selectedIndex].getAttribute('data-id');
+                    const kelSelect = document.getElementById('kel_des_' + prefix);
+                    kelSelect.innerHTML = '<option value="">Pilih Kelurahan/Desa</option>';
+                    kelSelect.disabled = true;
+                    if (kecId) {
+                        fetch(`https://www.emsifa.com/api-wilayah-indonesia/api/villages/${kecId}.json`)
+                            .then(res => res.json())
+                            .then(data => {
+                                data.forEach(kel => {
+                                    let opt = document.createElement('option');
+                                    opt.value = kel.name;
+                                    opt.textContent = kel.name;
+                                    kelSelect.appendChild(opt);
+                                });
+                                kelSelect.disabled = false;
+                                if (oldKel) {
+                                    kelSelect.value = oldKel;
+                                }
+                            });
+                    }
+                });
+            }
+
+            setupWilayah('ayah', @json(old('provinsi_ayah')), @json(old('kab_kota_ayah')), @json(old('kecamatan_ayah')), @json(old('kel_des_ayah')));
+            setupWilayah('ibu', @json(old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('provinsi_ayah') : old('provinsi_ibu')), @json(old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('kab_kota_ayah') : old('kab_kota_ibu')), @json(old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('kecamatan_ayah') : old('kecamatan_ibu')), @json(old('pemilikan_rumah_ibu') == 'Sama Dengan Ayah' ? old('kel_des_ayah') : old('kel_des_ibu')));
+            setupWilayah('wali', @json(old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('provinsi_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('provinsi_ibu') : old('provinsi_wali'))), @json(old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('kab_kota_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('kab_kota_ibu') : old('kab_kota_wali'))), @json(old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('kecamatan_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('kecamatan_ibu') : old('kecamatan_wali'))), @json(old('pemilikan_rumah_wali') == 'Sama dengan Ayah' ? old('kel_des_ayah') : (old('pemilikan_rumah_wali') == 'Sama dengan Ibu' ? old('kel_des_ibu') : old('kel_des_wali'))));
+            setupWilayah(
+              'siswa',
+              @json(old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('provinsi_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('provinsi_ibu') : old('provinsi_siswa'))),
+              @json(old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('kab_kota_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('kab_kota_ibu') : old('kab_kota_siswa'))),
+              @json(old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('kecamatan_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('kecamatan_ibu') : old('kecamatan_siswa'))),
+              @json(old('status_tempat_tinggal') == 'Tinggal dengan Ayah Kandung' ? old('kel_des_ayah') : (old('status_tempat_tinggal') == 'Tinggal dengan Ibu Kandung' ? old('kel_des_ibu') : old('kel_des_siswa')))
+            );
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectPemilikanIbu = document.querySelector('select[name="pemilikan_rumah_ibu"]');
+            if (!selectPemilikanIbu) return;
+
+            selectPemilikanIbu.addEventListener('change', function () {
+                if (this.value === 'Sama Dengan Ayah') {
+                    // Copy provinsi
+                    const provAyah = document.getElementById('provinsi_ayah').value;
+                    const kabAyah = document.getElementById('kab_kota_ayah').value;
+                    const kecAyah = document.getElementById('kecamatan_ayah').value;
+                    const kelAyah = document.getElementById('kel_des_ayah').value;
+                    const rtAyah = document.querySelector('input[name="rt_ayah"]').value;
+                    const rwAyah = document.querySelector('input[name="rw_ayah"]').value;
+                    const alamatAyah = document.querySelector('textarea[name="alamat_ayah"]').value;
+                    const kodePosAyah = document.querySelector('input[name="kode_pos_ayah"]').value;
+
+                    // Set value ibu
+                    document.getElementById('provinsi_ibu').value = provAyah;
+                    document.getElementById('provinsi_ibu').dispatchEvent(new Event('change'));
+
+                    // Tunggu async load kabupaten, kecamatan, kelurahan
+                    setTimeout(function () {
+                        document.getElementById('kab_kota_ibu').value = kabAyah;
+                        document.getElementById('kab_kota_ibu').dispatchEvent(new Event('change'));
+                        setTimeout(function () {
+                            document.getElementById('kecamatan_ibu').value = kecAyah;
+                            document.getElementById('kecamatan_ibu').dispatchEvent(new Event('change'));
+                            setTimeout(function () {
+                                document.getElementById('kel_des_ibu').value = kelAyah;
+                            }, 500);
+                        }, 500);
+                    }, 500);
+
+                    document.querySelector('input[name="rt_ibu"]').value = rtAyah;
+                    document.querySelector('input[name="rw_ibu"]').value = rwAyah;
+                    document.querySelector('textarea[name="alamat_ibu"]').value = alamatAyah;
+                    document.querySelector('input[name="kode_pos_ibu"]').value = kodePosAyah;
+
+                    // Optional: disable input agar tidak bisa diubah manual
+                    document.getElementById('provinsi_ibu').disabled = true;
+                    document.getElementById('kab_kota_ibu').disabled = true;
+                    document.getElementById('kecamatan_ibu').disabled = true;
+                    document.getElementById('kel_des_ibu').disabled = true;
+                    document.querySelector('input[name="rt_ibu"]').readOnly = true;
+                    document.querySelector('input[name="rw_ibu"]').readOnly = true;
+                    document.querySelector('textarea[name="alamat_ibu"]').readOnly = true;
+                    document.querySelector('input[name="kode_pos_ibu"]').readOnly = true;
+                } else {
+                    // Enable input jika user pilih selain 'Sama Dengan Ayah'
+                    document.getElementById('provinsi_ibu').disabled = false;
+                    document.getElementById('kab_kota_ibu').disabled = false;
+                    document.getElementById('kecamatan_ibu').disabled = false;
+                    document.getElementById('kel_des_ibu').disabled = false;
+                    document.querySelector('input[name="rt_ibu"]').readOnly = false;
+                    document.querySelector('input[name="rw_ibu"]').readOnly = false;
+                    document.querySelector('textarea[name="alamat_ibu"]').readOnly = false;
+                    document.querySelector('input[name="kode_pos_ibu"]').readOnly = false;
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectPemilikanWali = document.querySelector('select[name="pemilikan_rumah_wali"]');
+            if (!selectPemilikanWali) return;
+
+            selectPemilikanWali.addEventListener('change', function () {
+                let sumber = null;
+                if (this.value === 'Sama dengan Ayah') sumber = 'ayah';
+                if (this.value === 'Sama dengan Ibu') sumber = 'ibu';
+
+                if (sumber) {
+                    // Copy data dari ayah/ibu
+                    const prov = document.getElementById('provinsi_' + sumber).value;
+                    const kab = document.getElementById('kab_kota_' + sumber).value;
+                    const kec = document.getElementById('kecamatan_' + sumber).value;
+                    const kel = document.getElementById('kel_des_' + sumber).value;
+                    const rt = document.querySelector('input[name="rt_' + sumber + '"]').value;
+                    const rw = document.querySelector('input[name="rw_' + sumber + '"]').value;
+                    const alamat = document.querySelector('textarea[name="alamat_' + sumber + '"]').value;
+                    const kodePos = document.querySelector('input[name="kode_pos_' + sumber + '"]').value;
+
+                    // Set value wali
+                    document.getElementById('provinsi_wali').value = prov;
+                    document.getElementById('provinsi_wali').dispatchEvent(new Event('change'));
+                    setTimeout(function () {
+                        document.getElementById('kab_kota_wali').value = kab;
+                        document.getElementById('kab_kota_wali').dispatchEvent(new Event('change'));
+                        setTimeout(function () {
+                            document.getElementById('kecamatan_wali').value = kec;
+                            document.getElementById('kecamatan_wali').dispatchEvent(new Event('change'));
+                            setTimeout(function () {
+                                document.getElementById('kel_des_wali').value = kel;
+                            }, 500);
+                        }, 500);
+                    }, 500);
+
+                    document.querySelector('input[name="rt_wali"]').value = rt;
+                    document.querySelector('input[name="rw_wali"]').value = rw;
+                    document.querySelector('textarea[name="alamat_wali"]').value = alamat;
+                    document.querySelector('input[name="kode_pos_wali"]').value = kodePos;
+
+                    // Jangan disable select agar value tetap terkirim
+                    // document.getElementById('provinsi_wali').disabled = true;
+                    // document.getElementById('kab_kota_wali').disabled = true;
+                    // document.getElementById('kecamatan_wali').disabled = true;
+                    // document.getElementById('kel_des_wali').disabled = true;
+                    document.querySelector('input[name="rt_wali"]').readOnly = true;
+                    document.querySelector('input[name="rw_wali"]').readOnly = true;
+                    document.querySelector('textarea[name="alamat_wali"]').readOnly = true;
+                    document.querySelector('input[name="kode_pos_wali"]').readOnly = true;
+                } else {
+                    // Enable input jika user pilih selain 'Sama dengan Ayah' atau 'Sama dengan Ibu'
+                    document.getElementById('provinsi_wali').disabled = false;
+                    document.getElementById('kab_kota_wali').disabled = false;
+                    document.getElementById('kecamatan_wali').disabled = false;
+                    document.getElementById('kel_des_wali').disabled = false;
+                    document.querySelector('input[name="rt_wali"]').readOnly = false;
+                    document.querySelector('input[name="rw_wali"]').readOnly = false;
+                    document.querySelector('textarea[name="alamat_wali"]').readOnly = false;
+                    document.querySelector('input[name="kode_pos_wali"]').readOnly = false;
+                }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const selectStatusTinggal = document.querySelector('select[name="status_tempat_tinggal"]');
+            if (!selectStatusTinggal) return;
+
+            selectStatusTinggal.addEventListener('change', function () {
+                let sumber = null;
+                if (this.value === 'Tinggal dengan Ayah Kandung') sumber = 'ayah';
+                if (this.value === 'Tinggal dengan Ibu Kandung') sumber = 'ibu';
+
+                if (sumber) {
+                    // Copy data dari ayah/ibu
+                    const prov = document.getElementById('provinsi_' + sumber).value;
+                    const kab = document.getElementById('kab_kota_' + sumber).value;
+                    const kec = document.getElementById('kecamatan_' + sumber).value;
+                    const kel = document.getElementById('kel_des_' + sumber).value;
+                    const rt = document.querySelector('input[name="rt_' + sumber + '"]').value;
+                    const rw = document.querySelector('input[name="rw_' + sumber + '"]').value;
+                    const alamat = document.querySelector('textarea[name="alamat_' + sumber + '"]').value;
+                    const kodePos = document.querySelector('input[name="kode_pos_' + sumber + '"]').value;
+
+                    // Set value siswa
+                    document.getElementById('provinsi_siswa').value = prov;
+                    document.getElementById('provinsi_siswa').dispatchEvent(new Event('change'));
+
+                    // Tunggu async load kabupaten, kecamatan, kelurahan
+                    setTimeout(function () {
+                        document.getElementById('kab_kota_siswa').value = kab;
+                        document.getElementById('kab_kota_siswa').dispatchEvent(new Event('change'));
+                        setTimeout(function () {
+                            document.getElementById('kecamatan_siswa').value = kec;
+                            document.getElementById('kecamatan_siswa').dispatchEvent(new Event('change'));
+                            setTimeout(function () {
+                                document.getElementById('kel_des_siswa').value = kel;
+                            }, 500);
+                        }, 500);
+                    }, 500);
+
+                    document.querySelector('input[name="rt_siswa"]').value = rt;
+                    document.querySelector('input[name="rw_siswa"]').value = rw;
+                    document.querySelector('textarea[name="alamat_siswa"]').value = alamat;
+                    document.querySelector('input[name="kode_pos_siswa"]').value = kodePos;
+
+                    // Optional: disable input agar tidak bisa diubah manual
+                    document.getElementById('provinsi_siswa').disabled = false;
+                    document.getElementById('kab_kota_siswa').disabled = true;
+                    document.getElementById('kecamatan_siswa').disabled = true;
+                    document.getElementById('kel_des_siswa').disabled = true;
+                    document.querySelector('input[name="rt_siswa"]').readOnly = true;
+                    document.querySelector('input[name="rw_siswa"]').readOnly = true;
+                    document.querySelector('textarea[name="alamat_siswa"]').readOnly = true;
+                    document.querySelector('input[name="kode_pos_siswa"]').readOnly = true;
+                } else {
+                    // Enable input jika user pilih selain 'Tinggal dengan Ayah Kandung' atau 'Tinggal dengan Ibu Kandung'
+                    document.getElementById('provinsi_siswa').disabled = false;
+                    document.getElementById('kab_kota_siswa').disabled = false;
+                    document.getElementById('kecamatan_siswa').disabled = false;
+                    document.getElementById('kel_des_siswa').disabled = false;
+                    document.querySelector('input[name="rt_siswa"]').readOnly = false;
+                    document.querySelector('input[name="rw_siswa"]').readOnly = false;
+                    document.querySelector('textarea[name="alamat_siswa"]').readOnly = false;
+                    document.querySelector('input[name="kode_pos_siswa"]').readOnly = false;
+                }
+            });
+        });
+    </script>
 </x-layout>

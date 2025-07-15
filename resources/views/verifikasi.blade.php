@@ -53,7 +53,7 @@
                                             Aksi
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item text-primary" href="#">Detail</a>  <!-- warna biru -->
+                                            <a class="dropdown-item text-primary" href="#" onclick="detail({{ $siswa->nisn }})">Detail</a>  
                                             <a class="dropdown-item text-danger" data-nama="{{ $siswa->nama_lengkap }}" data-id="{{ $siswa->user_id }}" onclick="hapus(this)" href="#">Hapus</a>    <!-- warna merah -->
                                         </div>
                                     </div>
@@ -90,6 +90,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        function detail(nisn){
+            window.location.href = "{{ route('detail_verifikasi', ['nisn' => ':nisn']) }}".replace(':nisn', nisn);
+        }
         function hapus(hapus){
             let nama = hapus.getAttribute('data-nama');
             Swal.fire({

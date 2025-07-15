@@ -171,14 +171,14 @@
             <a href="" class="edit-btn {{ $ket }}">✏️ Edit Formulir</a>
         </div>
     </div>
-@else
-    {{-- Belum ada data formulir --}}
-    <div class="biodata-container text-center">
-        <h2 class="biodata-title">📄 Formulir Belum Diisi</h2>
-        <p class="mb-4" style="font-size: 1rem; color: #666;">Anda belum mengisi formulir biodata orang tua/wali. Silakan lengkapi terlebih dahulu untuk melanjutkan.</p>
-        <a href="{{ route('form') }}" class="edit-btn">📝 Isi Formulir</a>
-    </div>
-@endif
+    @else
+        {{-- Belum ada data formulir --}}
+        <div class="biodata-container text-center">
+            <h2 class="biodata-title">📄 Formulir Belum Diisi</h2>
+            <p class="mb-4" style="font-size: 1rem; color: #666;">Anda belum mengisi formulir biodata orang tua/wali. Silakan lengkapi terlebih dahulu untuk melanjutkan.</p>
+            <a href="{{ route('form') }}" class="edit-btn">📝 Isi Formulir</a>
+        </div>
+    @endif
 
     
 </x-layout>

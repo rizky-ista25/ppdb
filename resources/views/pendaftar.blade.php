@@ -40,7 +40,7 @@
                                             Aksi
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item text-primary" href="#">Detail</a>  <!-- warna biru -->
+                                            <a class="dropdown-item text-primary" href="{{ route('edit_siswa', $siswa->id) }}">Detail</a>
                                             <a class="dropdown-item text-danger" data-nama="{{ $siswa->name }}" data-id="{{ $siswa->id }}" onclick="hapus(this)" href="#">Hapus</a>    <!-- warna merah -->
                                         </div>
                                     </div>
@@ -76,6 +76,7 @@
     <script>
         function hapus(hapus){
             let nama = hapus.getAttribute('data-nama');
+            let id = hapus.getAttribute('data-id');
             Swal.fire({
                 title: "Tindakan ini tidak dapat dibatalkan.",
                 html: 'Apakah anda yakin ingin menghapus <strong>' + nama + '</strong>?',
@@ -95,7 +96,7 @@
                         timerProgressBar: true,
                         showConfirmButton: false
                     }).then(() => {
-                        location.reload();
+                        window.location.href = '/hapus_siswa/' + id;
                     });
                 }
 
