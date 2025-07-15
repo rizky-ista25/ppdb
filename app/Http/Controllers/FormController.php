@@ -44,7 +44,7 @@ class FormController extends Controller
                 'status_ayah' => 'in:hidup,meninggal',
                 'kewarganegaraan_ayah' => 'max:100',
                 'nik_ayah' => 'digits:16|unique:dokumen_wali,nik_ayah',
-                'tempat_lahir_ayah' => 'string|max:100|unique:dokumen_wali,tempat_lahir_ayah',
+                'tempat_lahir_ayah' => 'string|max:100',
                 'tanggal_lahir_ayah' => 'date|before:today',
                 'pendidikan_ayah' => 'max:100',
                 'pekerjaan_ayah' => 'max:100',
@@ -56,7 +56,7 @@ class FormController extends Controller
                 'status_ibu' => 'in:hidup,meninggal',
                 'kewarganegaraan_ibu' => 'string|max:100',
                 'nik_ibu' => 'digits:16|unique:dokumen_wali,nik_ibu',
-                'tempat_lahir_ibu' => 'string|max:100|unique:dokumen_wali,tempat_lahir_ibu',
+                'tempat_lahir_ibu' => 'string|max:100',
                 'tanggal_lahir_ibu' => 'date|before:today',
                 'pendidikan_ibu' => 'string|max:100',
                 'pekerjaan_ibu' => 'string|max:100',
@@ -70,7 +70,7 @@ class FormController extends Controller
                 'status_wali' => 'in:hidup,meninggal',
                 'kewarganegaraan_wali' => 'string|max:100',
                 'nik_wali' => 'digits:16|unique:dokumen_wali,nik_wali',
-                'tempat_lahir_wali' => 'string|max:100|unique:dokumen_wali,tempat_lahir_wali',
+                'tempat_lahir_wali' => 'string|max:100',
                 'tanggal_lahir_wali' => 'date|before:today',
                 'pendidikan_wali' => 'string|max:100',
                 'pekerjaan_wali' => 'string|max:100',
@@ -101,7 +101,6 @@ class FormController extends Controller
                 
                 'tempat_lahir_ayah.string' => 'Tempat lahir ayah harus berupa teks.',
                 'tempat_lahir_ayah.max' => 'Tempat lahir ayah maksimal 100 karakter.',
-                'tempat_lahir_ayah.unique' => 'Tempat lahir ayah sudah terdaftar.',
 
                 
                 'tanggal_lahir_ayah.date' => 'Tanggal lahir ayah harus berupa tanggal yang valid.',
@@ -140,7 +139,6 @@ class FormController extends Controller
                 
                 'tempat_lahir_ibu.string' => 'Tempat lahir ibu harus berupa teks.',
                 'tempat_lahir_ibu.max' => 'Tempat lahir ibu maksimal 100 karakter.',
-                'tempat_lahir_ibu.unique' => 'Tempat lahir ibu sudah terdaftar.',
 
                 
                 'tanggal_lahir_ibu.date' => 'Tanggal lahir ibu harus berupa tanggal yang valid.',
@@ -179,7 +177,6 @@ class FormController extends Controller
                 
                 'tempat_lahir_wali.string' => 'Tempat lahir wali harus berupa teks.',
                 'tempat_lahir_wali.max' => 'Tempat lahir wali maksimal 100 karakter.',
-                'tempat_lahir_wali.unique' => 'Tempat lahir wali sudah terdaftar.',
 
                 
                 'tanggal_lahir_wali.date' => 'Tanggal lahir wali harus berupa tanggal yang valid.',
@@ -497,16 +494,36 @@ class FormController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+
+
+    public function updateFormSiswa(Request $request)
     {
-        //
+        $siswa = Siswa::where('user_id', $request->id)->first();
+        $siswa->update(['status_dok_siswa' => $request->status]);
+        return redirect()->back()->with('success', 'Status formulir siswa berhasil diubah');
+    }
+
+    public function updateFormOrtu(Request $request)
+    {
+        $ortu = DokumenWali::where('siswa_id', $request->id)->first();
+        $ortu->update(['status_dok_ortu' => $request->status]);
+        return redirect()->back()->with('success', 'Status formulir orang tua berhasil diubah');
+    }
+
+    public function updateFormAlamat(Request $request)
+    {
+        $alamat = Alamat::where('alamatSiswa_id', $request->id)->first();
+        $alamat->update(['status_dok_alamat' => $request->status]);
+        return redirect()->back()->with('success', 'Status formulir alamat berhasil diubah');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        $siswa = Siswa::findOrFail($request->id);
+        $siswa->delete();
+        return redirect()->back()->with('success', 'Data siswa berhasil dihapus');
     }
 }

@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Formulir Pendaftaran">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.22.1/dist/sweetalert2.min.css">
     <!-- CSS Bootstrap -->
     <style>
@@ -77,15 +77,15 @@
             <div class="btn-group" role="group" aria-label="Basic example">
                 
                 @php
-                    $status_siswa = $statusSiswa ? 'disabled' : '' ;
+                    $status_siswa = $statusSiswa && $statusSiswa->status_dok_siswa !== 'ditolak' ? 'disabled' : '' ;
                     $title_siswa = $statusSiswa ? 'Formulir siswa telah diisi' : '' ;
                     $display_ortu = $statusSiswa ? '' : 'd-none' ;
 
-                    $status_ortu = $statusOrtu ? 'disabled' : '' ;
+                    $status_ortu = $statusOrtu && $statusOrtu->status_dok_ortu !== 'ditolak' ? 'disabled' : '' ;
                     $title_ortu = $statusOrtu ? 'Formulir Orang Tua telah diisi' : '' ;
                     $display_alamat = $statusOrtu ? '' : 'd-none' ;
 
-                    $status_alamat = $statusAlamat ? 'disabled' : '' ;
+                    $status_alamat = $statusAlamat && $statusAlamat->status_dok_alamat !== 'ditolak' ? 'disabled' : '' ;
                     $title_alamat = $statusAlamat ? 'Formulir Alamat telah diisi' : '' ;
                 @endphp
                 <button {{ $status_siswa }} title="{{ $title_siswa }}" type="button" class="btn btn-primary" data-bs-toggle="collapse" data-bs-target="#collapseSiswa" aria-expanded="false" aria-controls="collapseSiswa">Data Siswa</button>

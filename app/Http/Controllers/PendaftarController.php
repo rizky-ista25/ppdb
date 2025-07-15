@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alamat;
+use App\Models\Berkas;
 use App\Models\DokumenWali;
 use App\Models\Siswa;
 use App\Models\User;
@@ -99,11 +100,12 @@ class PendaftarController extends Controller
     public function detailVerifikasi($nisn)
     {
         $siswa = Siswa::where('nisn',$nisn)->first();
+        $berkas = Berkas::where('berkas_siswa_id',$siswa->user_id)->first();
         $statusSiswa = $siswa ? ($siswa->status_dok_siswa ?? '') : '';
         $ortu = DokumenWali::where('siswa_id',$siswa->user_id)->first();
         $statusOrtu = $ortu ? ($ortu->status_dok_ortu ?? '') : '';
         $alamat = Alamat::where('alamatSiswa_id',$siswa->user_id)->first();
         $statusAlamat = $alamat ? ($alamat->status_dok_alamat ?? '') : '';
-        return view('detail_verifikasi', compact('siswa','statusSiswa','ortu','statusOrtu','alamat','statusAlamat'));
+        return view('detail_verifikasi', compact('siswa','statusSiswa','ortu','statusOrtu','alamat','statusAlamat','berkas'));
     }
 }

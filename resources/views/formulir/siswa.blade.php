@@ -207,7 +207,7 @@
                         $ket = '';
                     }
                 @endphp
-                <a href="" class="edit-btn {{ $ket }}">✏️ Edit Formulir</a>
+                <a href="" class="edit-btn {{ $ket }}"> Upload Ulang Formulir</a>
             </div>
         </div>
     @else

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\LoginController;
@@ -17,9 +18,16 @@ Route::get('form',[FormController::class, 'index'])->name('form')->middleware('a
 Route::post('/upload',[FormController::class, 'store'])->name('upload')->middleware('auth');
 Route::post('/upload_ortu',[FormController::class, 'uploadOrtu'])->name('upload_ortu')->middleware('auth');
 Route::post('/upload_alamat',[FormController::class, 'uploadAlamat'])->name('upload_alamat')->middleware('auth');
+Route::post('/siswa_delete',[FormController::class, 'destroy'])->name('siswa_delete')->middleware('auth');
+Route::post('/update_form_siswa',[FormController::class, 'updateFormSiswa'])->name('update_form_siswa')->middleware('auth');
+Route::post('/update_form_ortu',[FormController::class, 'updateFormOrtu'])->name('update_form_ortu')->middleware('auth');
+Route::post('/update_form_alamat',[FormController::class, 'updateFormAlamat'])->name('update_form_alamat')->middleware('auth'); 
 Route::get('/formulir_pribadi',[SiswaController::class, 'formPribadi'])->middleware('auth');
 Route::get('/formulir_ortu',[SiswaController::class, 'formOrtu'])->middleware('auth');
 Route::get('/formulir_alamat',[SiswaController::class, 'formAlamat'])->middleware('auth');
+Route::get('/berkas',[BerkasController::class, 'index'])->name('berkas')->middleware('auth');
+Route::post('/upload_berkas',[BerkasController::class, 'store'])->name('upload_berkas')->middleware('auth');
+
 
 Route::get('/pendaftar',[PendaftarController::class, 'index'])->name('pendaftar')->middleware('auth');
 Route::get('/verifikasi',[VerifikasiController::class, 'index'])->name('verifikasi')->middleware('auth');

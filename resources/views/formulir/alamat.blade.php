@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout title="Formulir Alamat">
     <style>
         .biodata-container {
             max-width: 800px;
@@ -174,7 +174,7 @@
                 @php
                     $ketAlamat = $alamat->status_dok_alamat !== 'ditolak' ? 'disabled' : '';
                 @endphp
-                <a href="" class="edit-btn {{ $ketAlamat }}">✏️ Edit Formulir</a>
+                <a href="/form" class="edit-btn {{ $ketAlamat }}"> Upload Ulang Formulir</a>
             </div>
         </div>
     @else

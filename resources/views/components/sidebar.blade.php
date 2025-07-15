@@ -40,6 +40,12 @@
           </x-sidelink>
         </li>
         <li class="nav-item">
+          <x-sidelink href="/berkas" :active="request()->is('berkas')">
+            <i class="nav-icon fas fa-upload"></i>
+            <p>Upload Berkas</p>
+          </x-sidelink>
+        </li>
+        <li class="nav-item">
           <x-sidelink href="/timeline" :active="request()->is('timeline')">
             <i class="nav-icon fas fa-bullhorn"></i>
             <p>Pengumuman</p>

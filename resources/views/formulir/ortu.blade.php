@@ -168,7 +168,7 @@
             @php
                 $ket = $ortu->status_dok_ortu !== 'ditolak' ? 'disabled' : '';
             @endphp
-            <a href="" class="edit-btn {{ $ket }}">✏️ Edit Formulir</a>
+            <a href="/form" class="edit-btn {{ $ket }}"> Upload Ulang Formulir</a>
         </div>
     </div>
     @else

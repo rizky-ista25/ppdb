@@ -54,7 +54,11 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item text-primary" href="#" onclick="detail({{ $siswa->nisn }})">Detail</a>  
-                                            <a class="dropdown-item text-danger" data-nama="{{ $siswa->nama_lengkap }}" data-id="{{ $siswa->user_id }}" onclick="hapus(this)" href="#">Hapus</a>    <!-- warna merah -->
+                                            <a class="dropdown-item text-danger" data-nama="{{ $siswa->nama_lengkap }}" onclick="hapus(this)" href="#">Hapus</a>
+                                            <form action="{{ route('siswa_delete') }}" method="POST" id="form-hapus">
+                                                @csrf
+                                                <input type="hidden" name="id" value="{{ $siswa->user_id }}">
+                                            </form>
                                         </div>
                                     </div>
         
@@ -114,7 +118,7 @@
                         timerProgressBar: true,
                         showConfirmButton: false
                     }).then(() => {
-                        location.reload();
+                        document.getElementById('form-hapus').submit();
                     });
                 }
 

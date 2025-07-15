@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="25" y="20" width="130" height="160" rx="12" fill="#f4f7fa" stroke="#b0bec5" stroke-width="2"/>
+  <rect x="40" y="40" width="100" height="18" rx="4" fill="#e3eaf2"/>
+  <rect x="40" y="70" width="70" height="10" rx="3" fill="#cfd8dc"/>
+  <rect x="40" y="90" width="80" height="10" rx="3" fill="#cfd8dc"/>
+  <rect x="40" y="110" width="60" height="10" rx="3" fill="#cfd8dc"/>
+  <rect x="40" y="130" width="90" height="10" rx="3" fill="#cfd8dc"/>
+  <g>
+    <ellipse cx="120" cy="155" rx="18" ry="7" fill="#b3e5fc"/>
+    <rect x="110" y="135" width="20" height="25" rx="5" fill="#039be5"/>
+    <rect x="117" y="140" width="6" height="15" rx="2" fill="#fff"/>
+    <rect x="120" y="150" width="2" height="7" rx="1" fill="#039be5"/>
+    <circle cx="120" cy="135" r="4" fill="#fff" stroke="#039be5" stroke-width="2"/>
+  </g>
+  <g>
+    <rect x="80" y="25" width="40" height="8" rx="2" fill="#90caf9"/>
+    <rect x="80" y="35" width="25" height="5" rx="2" fill="#b3e5fc"/>
+  </g>
+  <g>
+    <path d="M60 160 l15 -15 8 8 -15 15z" fill="#ffb300" stroke="#f57c00" stroke-width="2"/>
+    <rect x="73" y="153" width="12" height="4" rx="2" fill="#f57c00"/>
+  </g>
+  <text x="90" y="60" text-anchor="middle" font-size="12" fill="#607d8b" font-family="Segoe UI, Arial">Formulir</text>
+</svg> 
